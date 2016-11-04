@@ -3,7 +3,7 @@ machine:
     GOPATH: $HOME/gocode
     PATH: $GOPATH/bin:$PATH
     BASEPATH: $HOME/gocode/src/github.com/abice
-    SRC_DIR: $BASEPATH/abice
+    SRC_DIR: $BASEPATH/gencheck
 checkout:
   post:
     - mv "$BASEPATH" /tmp || echo
