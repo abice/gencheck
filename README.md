@@ -1,7 +1,10 @@
-# gencheck [![CircleCI](https://circleci.com/gh/zencoder/gencheck.svg?style=svg&circle-token=90f42bc5cbb6fe74834f7649d67298130431d88d)](https://circleci.com/gh/zencoder/gencheck) [![Coverage Status](https://coveralls.io/repos/github/zencoder/gencheck/badge.svg?branch=circle-fixes&t=A2kWWv)](https://coveralls.io/github/zencoder/gencheck?branch=circle-fixes)
+# gencheck [![CircleCI](https://circleci.com/gh/abice/gencheck.svg?style=svg&circle-token=90f42bc5cbb6fe74834f7649d67298130431d88d)](https://circleci.com/gh/abice/gencheck) [![Coverage Status](https://coveralls.io/repos/github/abice/gencheck/badge.svg?branch=circle-fixes&t=A2kWWv)](https://coveralls.io/github/abice/gencheck?branch=circle-fixes)
 Validation generator for go.
 
 ## How it works
+gencheck was built using the idea of [gokay](github.com/zencoder/gokay), but uses templates to create validations rather
+than reflection.
+
 gencheck will use the `valid` tag within a struct to generate a `Validate()` method.
 
 gencheck's `Validate()` method will return a `ValidationErrors` type, which is an array of `FieldError`s.

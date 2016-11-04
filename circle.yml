@@ -13,7 +13,7 @@ checkout:
 dependencies:
   cache_directories:
     - "~/download_cache"
-    - "$GOPATH/bin"
+    - "~/gocode/bin"
   pre:
     - sudo apt-get remove --purge golang
     - sudo rm -rf /usr/local/go/
