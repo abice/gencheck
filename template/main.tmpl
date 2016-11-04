@@ -1,0 +1,37 @@
+{{- define "header"}}
+package {{.package}}
+
+import (
+"github.com/abice/gencheck"
+)
+{{end -}}
+
+{{- define "struct"}}
+{{$ruleMap := .rules -}}
+func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
+  {{/* Only make the errors map if we're going to use it. */}}
+  {{- if gt (len .rules) 0 -}}
+  var vErrors gencheck.ValidationErrors
+  {{ end }}
+  {{/* Iterate through the rule map to create the rules */}}
+  {{range $name, $field := .rules -}}
+    {{ $rules := $field.Rules -}}
+    {{ if gt (len $rules) 0 -}}
+    // BEGIN {{ $name }} Validations
+    {{- range $rIndex, $rule := $rules }}
+      // {{ $rule.Name -}}
+      {{- CallTemplate $rule $rule }}
+    {{- end}}
+    // END {{ $name }} Validations
+
+    {{ end }}
+  {{- end}}
+  {{/* Only check the errors map if we have rules. */}}
+  {{ if gt (len .rules) 0 }}
+  if len(vErrors) >0 {
+    return vErrors
+  }
+  {{- end}}
+  return nil
+}
+{{end}}

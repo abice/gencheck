@@ -1,0 +1,19 @@
+{{/*
+  BCP47Validator generates code that will verify if a field is a BCP47 compatible string
+  https://tools.ietf.org/html/bcp47
+*/}}
+{{define "bcp47"}}
+{{ if eq .FieldType "string" "*string" }}
+if err := gencheck.IsBCP47({{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
+  {{ AddError . "err" }}
+}
+{{ else if eq .FieldType "[]string" "[]*string"}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  if err := gencheck.IsBCP47({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}}); err != nil {
+  {{ AddError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ GenerationError (printf "bcp47 is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{end -}}

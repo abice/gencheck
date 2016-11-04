@@ -1,0 +1,16 @@
+
+{{define "hex"}}
+{{ if eq .FieldType "string" "*string" }}
+if err := gencheck.IsHex({{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
+  {{ AddError . "err" }}
+}
+{{ else if eq .FieldType "[]string" "[]*string"}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  if err := gencheck.IsHex({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}}); err != nil {
+  {{ AddError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ GenerationError (printf "hex is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{end -}}

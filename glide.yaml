@@ -1,0 +1,10 @@
+package: github.com/abice/gencheck
+import:
+- package: github.com/Masterminds/sprig
+  version: ^2.6.0
+- package: github.com/mkideal/cli
+- package: golang.org/x/tools
+  subpackages:
+  - imports
+- package: github.com/stretchr/testify
+  version: ^1.1.4
