@@ -3,12 +3,12 @@
   */}}
 {{define "dive"}}
 {{ if or (isStruct .) (isStructPtr .)}}
-{{ if IsPtr . }}if s.{{.FieldName}} != nil { {{- end}}
+{{ if isPtr . }}if s.{{.FieldName}} != nil { {{- end}}
 if err := gencheck.Validate(s.{{.FieldName}}); err != nil {
-  {{ AddError . "err" }}
+  {{ addError . "err" }}
 }
-{{ if IsPtr . }}}{{end}}
+{{ if isPtr . }}}{{end}}
 {{ else }}
-{{ GenerationError (printf "Dive is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{ generationError (printf "Dive is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{end}}
 {{end -}}

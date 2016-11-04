@@ -21,11 +21,11 @@ func TestExampleTestSuite(t *testing.T) {
 // TestValidateTestStruct_NoValues
 func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 	expected := gencheck.ValidationErrors{
-		gencheck.NewFieldError("Test", "LenMultiple", "len", fmt.Errorf("length mismatch")),
-		gencheck.NewFieldError("Test", "LenNumber", "len", fmt.Errorf("length mismatch")),
-		gencheck.NewFieldError("Test", "LenString", "len", fmt.Errorf("length mismatch")),
-		gencheck.NewFieldError("Test", "RequiredMultiple", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "RequiredString", "required", fmt.Errorf("is required")),
+		gencheck.NewFieldError("Test", "RequiredMultiple", "required", fmt.Errorf("is required")),
+		gencheck.NewFieldError("Test", "LenString", "len", fmt.Errorf("length mismatch")),
+		gencheck.NewFieldError("Test", "LenNumber", "len", fmt.Errorf("length mismatch")),
+		gencheck.NewFieldError("Test", "LenMultiple", "len", fmt.Errorf("length mismatch")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
 	}
 

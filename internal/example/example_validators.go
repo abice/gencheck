@@ -27,32 +27,14 @@ func (s Example) Validate() error {
 func (s Test) Validate() error {
 	var vErrors gencheck.ValidationErrors
 
-	// BEGIN LenMultiple Validations
-	// len
+	// BEGIN RequiredString Validations
+	// required
 
-	if !(len(s.LenMultiple) == 7) {
-		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenMultiple", "len", errors.New("length mismatch")))
+	if s.RequiredString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "RequiredString", "required", errors.New("is required")))
 	}
 
-	// END LenMultiple Validations
-
-	// BEGIN LenNumber Validations
-	// len
-
-	if !(s.LenNumber == 1113.00) {
-		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenNumber", "len", errors.New("length mismatch")))
-	}
-
-	// END LenNumber Validations
-
-	// BEGIN LenString Validations
-	// len
-
-	if !(len(s.LenString) == 1) {
-		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenString", "len", errors.New("length mismatch")))
-	}
-
-	// END LenString Validations
+	// END RequiredString Validations
 
 	// BEGIN RequiredMultiple Validations
 	// required
@@ -63,14 +45,32 @@ func (s Test) Validate() error {
 
 	// END RequiredMultiple Validations
 
-	// BEGIN RequiredString Validations
-	// required
+	// BEGIN LenString Validations
+	// len
 
-	if s.RequiredString == "" {
-		vErrors = append(vErrors, gencheck.NewFieldError("Test", "RequiredString", "required", errors.New("is required")))
+	if !(len(s.LenString) == 1) {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenString", "len", errors.New("length mismatch")))
 	}
 
-	// END RequiredString Validations
+	// END LenString Validations
+
+	// BEGIN LenNumber Validations
+	// len
+
+	if !(s.LenNumber == 1113.00) {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenNumber", "len", errors.New("length mismatch")))
+	}
+
+	// END LenNumber Validations
+
+	// BEGIN LenMultiple Validations
+	// len
+
+	if !(len(s.LenMultiple) == 7) {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "LenMultiple", "len", errors.New("length mismatch")))
+	}
+
+	// END LenMultiple Validations
 
 	// BEGIN UUID Validations
 	// uuid

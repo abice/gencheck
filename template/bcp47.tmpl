@@ -4,16 +4,16 @@
 */}}
 {{define "bcp47"}}
 {{ if eq .FieldType "string" "*string" }}
-if err := gencheck.IsBCP47({{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
-  {{ AddError . "err" }}
+if err := gencheck.IsBCP47({{if not (isPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
+  {{ addError . "err" }}
 }
 {{ else if eq .FieldType "[]string" "[]*string"}}
 for index, single{{.FieldName}} := range s.{{.FieldName}} {
   if err := gencheck.IsBCP47({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}}); err != nil {
-  {{ AddError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
   }
 }
 {{ else }}
-{{ GenerationError (printf "bcp47 is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{ generationError (printf "bcp47 is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{end}}
 {{end -}}

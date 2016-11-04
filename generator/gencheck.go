@@ -62,13 +62,13 @@ func NewGenerator() *Generator {
 	funcs := sprig.TxtFuncMap()
 
 	funcs["CallTemplate"] = g.CallTemplate
-	funcs["IsPtr"] = isPtr
-	funcs["AddError"] = addFieldError
-	funcs["IsNullable"] = isNullable
+	funcs["isPtr"] = isPtr
+	funcs["addError"] = addFieldError
+	funcs["isNullable"] = isNullable
 	funcs["typeof"] = typeof
 	funcs["isMap"] = isMap
 	funcs["isArray"] = isArray
-	funcs["GenerationError"] = GenerationError
+	funcs["generationError"] = GenerationError
 	funcs["isStruct"] = tmplIsStruct
 	funcs["isStructPtr"] = tmplIsStructPtr
 
@@ -120,11 +120,11 @@ func (g *Generator) GenerateFromFile(inputFile string) ([]byte, error) {
 
 }
 
-type ByFieldName []*ast.Field
+type ByPosition []*ast.Field
 
-func (a ByFieldName) Len() int           { return len(a) }
-func (a ByFieldName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByFieldName) Less(i, j int) bool { return a[i].Names[0].Name < a[j].Names[0].Name }
+func (a ByPosition) Len() int           { return len(a) }
+func (a ByPosition) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByPosition) Less(i, j int) bool { return a[i].Pos() < a[j].Pos() }
 
 // Generate does the heavy lifting for the code generation starting from the parsed AST file.
 func (g *Generator) Generate(f *ast.File) ([]byte, error) {
@@ -148,9 +148,11 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 
 	for _, name := range keys {
 		st := structs[name]
-		rules := make(map[string]Field)
+
+		var rules []Field
 
 		fieldList := st.Fields.List
+		sort.Sort(ByPosition(fieldList))
 
 		// Go through the fields in the struct and find all the validated tags
 		for _, field := range fieldList {
@@ -223,7 +225,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 
 					// If we have any rules for the field, add it to the map
 					if len(f.Rules) > 0 {
-						rules[f.Name] = f
+						rules = append(rules, f)
 					}
 				}
 			}
