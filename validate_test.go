@@ -1,6 +1,7 @@
 package gencheck
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
@@ -23,8 +24,8 @@ func (c CanValidate) Validate() error {
 		return nil
 	}
 	return ValidationErrors{
-		NewFieldError("CanValidate", "Valid", "", "Valid when true"),
-		NewFieldError("CanValidate", "Valid", "valid", ""),
+		NewFieldError("CanValidate", "Valid", "", fmt.Errorf("Valid when true")),
+		NewFieldError("CanValidate", "Valid", "valid", nil),
 	}
 }
 

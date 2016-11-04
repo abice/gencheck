@@ -7,6 +7,7 @@ import (
 	"go/parser"
 	"go/printer"
 	"go/token"
+	"sort"
 	"strings"
 	"text/template"
 
@@ -119,6 +120,12 @@ func (g *Generator) GenerateFromFile(inputFile string) ([]byte, error) {
 
 }
 
+type ByFieldName []*ast.Field
+
+func (a ByFieldName) Len() int           { return len(a) }
+func (a ByFieldName) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a ByFieldName) Less(i, j int) bool { return a[i].Names[0].Name < a[j].Names[0].Name }
+
 // Generate does the heavy lifting for the code generation starting from the parsed AST file.
 func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 	var err error
@@ -132,11 +139,21 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 	vBuff := bytes.NewBuffer([]byte{})
 	g.t.ExecuteTemplate(vBuff, "header", map[string]interface{}{"package": pkg})
 
-	for name, st := range structs {
+	// Make the output more consistent by iterating over sorted keys of map
+	var keys []string
+	for key := range structs {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	for _, name := range keys {
+		st := structs[name]
 		rules := make(map[string]Field)
 
+		fieldList := st.Fields.List
+
 		// Go through the fields in the struct and find all the validated tags
-		for _, field := range st.Fields.List {
+		for _, field := range fieldList {
 			// Make a field holder
 			f := Field{
 				F:    field,

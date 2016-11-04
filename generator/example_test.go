@@ -1,6 +1,7 @@
 package generator
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/abice/gencheck"
@@ -41,7 +42,7 @@ type Testvalid struct {
 // valid
 func (s Testvalid) valid() error {
 	if !s.Valid {
-		return gencheck.ValidationErrors{gencheck.NewFieldError("TestValid", "Valid", "", "invalid when false")}
+		return gencheck.ValidationErrors{gencheck.NewFieldError("TestValid", "Valid", "", fmt.Errorf("invalid when false"))}
 	}
 	return nil
 }

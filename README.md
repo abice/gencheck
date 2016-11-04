@@ -5,7 +5,8 @@ Validation generator for go.
 gencheck was built using the idea of [gokay](github.com/zencoder/gokay), but uses templates to create validations rather
 than reflection.
 
-gencheck will use the `valid` tag within a struct to generate a `Validate()` method.
+gencheck will use the `valid` tag within a struct to generate a `Validate()` method, which is will store in a `file_validators.go` file
+next to the input file.
 
 gencheck's `Validate()` method will return a `ValidationErrors` type, which is an array of `FieldError`s.
 
@@ -97,6 +98,7 @@ Tested on go 1.7.3.
 - [x] Prevent duplicate validations on the same field
 - [x] Update Required tag to error out on numerical or boolean fields
 - [ ] Support for sub-validations? `Struct fields: generated code will call static Validate method on any field that implements Validateable interface`  Maybe use a deep check
+- [ ] Readme info for what information is available within the templates.
 
 ### CI
 

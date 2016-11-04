@@ -13,11 +13,11 @@ test: generate gen-test
 	if [ ! -d coverage ]; then mkdir coverage; fi
 	go test -v ./generator -race -cover -coverprofile=$(COVERAGEDIR)/generator.coverprofile
 	go test -v ./ -race -cover -coverprofile=$(COVERAGEDIR)/gencheck.coverprofile
-	# go test -v ./internal/gkexample -race -cover -coverprofile=$(COVERAGEDIR)/gkexample.coverprofile
+	go test -v ./internal/example -race -cover -coverprofile=$(COVERAGEDIR)/example.coverprofile
 cover:
 	go tool cover -html=$(COVERAGEDIR)/generator.coverprofile -o $(COVERAGEDIR)/generator.html
 	go tool cover -html=$(COVERAGEDIR)/gencheck.coverprofile -o $(COVERAGEDIR)/gencheck.html
-	go tool cover -html=$(COVERAGEDIR)/gencheck.coverprofile -o $(COVERAGEDIR)/gkexample.html
+	go tool cover -html=$(COVERAGEDIR)/gencheck.coverprofile -o $(COVERAGEDIR)/example.html
 tc: test cover
 coveralls:
 	gover $(COVERAGEDIR) $(COVERAGEDIR)/coveralls.coverprofile
@@ -34,7 +34,7 @@ generate:
 
 gen-test: build
 	./bin/gencheck -f=./internal/example/example.go
-	
+
 install:
 	go install ./gencheck
 

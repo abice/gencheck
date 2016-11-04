@@ -65,6 +65,7 @@ func (fe fieldError) Field() string {
 func (fe fieldError) Struct() string {
 	return fe.structName
 }
+
 func (fe fieldError) Message() string {
 	return fe.msg
 }
@@ -72,7 +73,11 @@ func (fe fieldError) Message() string {
 // NewFieldError returns a newly created immutable FieldError
 // Tag is normally the rule that was invalid, but can be used for whatever
 // message you want.
-func NewFieldError(st, field, tag, msg string) FieldError {
+func NewFieldError(st, field, tag string, err error) FieldError {
+	var msg string
+	if err != nil {
+		msg = err.Error()
+	}
 	return &fieldError{
 		structName: st,
 		field:      field,
