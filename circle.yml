@@ -23,6 +23,7 @@ dependencies:
     - cd ~/download_cache && tar -xzf glide-v0.12.3-linux-amd64.tar.gz
     - cd ~/download_cache && sudo cp linux-amd64/glide /usr/local/bin/glide
   override:
+    - type go-bindata || go get -u github.com/jteeuwen/go-bindata/...
     - type cover     || go get golang.org/x/tools/cmd/cover
     - type goveralls || go get github.com/mattn/goveralls
     - type gover     || go get github.com/modocache/gover
