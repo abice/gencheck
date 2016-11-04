@@ -80,7 +80,7 @@ gencheck allows developers to write and attach their own Validation templates to
 1. Add `valid` tags to your struct fields
 1. Run gencheck: `gencheck -f=file.go -t=MyTemplate`
 
-[More Examples](internal/gkexample/)
+[More Examples](internal/example/)
 
 ## Development
 
