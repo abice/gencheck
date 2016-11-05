@@ -2,16 +2,54 @@
 Validation generator for go.
 
 ## How it works
-gencheck was built using the idea of [gokay](github.com/zencoder/gokay), but uses templates to create validations rather
-than reflection.
+gencheck was built using the idea of [gokay](github.com/zencoder/gokay), but uses templates to create validations for a struct.
 
 gencheck will use the `valid` tag within a struct to generate a `Validate()` method, which is will store in a `file_validators.go` file
 next to the input file.
 
 gencheck's `Validate()` method will return a `ValidationErrors` type, which is an array of `FieldError`s.
 
-### Code Documentation
-`godoc -http=:6060`
+Given the struct:
+
+```go
+type MyStruct struct{
+	MyField string `valid:"required"`
+}
+```
+A Validate method is generated:
+
+```go
+func (s MyStruct) Validate() error {
+	var vErrors gencheck.ValidationErrors
+
+	// BEGIN MyField Validations
+	// required
+
+	if s.MyField == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("MyStruct", "MyField", "required", errors.New("is required")))
+	}
+
+	// END MyField Validations
+
+	if len(vErrors) > 0 {
+		return vErrors
+	}
+	return nil
+}
+```
+
+## Useless Benchmarks
+
+I know benchmarks are always skewed to show what the creators want you to see, but here's a quick benchmark of the cost of using validation to check
+
+```
+BenchmarkReflectionInt-8      	20000000	       104 ns/op
+BenchmarkEmptyInt-8           	2000000000	         0.29 ns/op
+BenchmarkReflectionStruct-8   	 5000000	       262 ns/op
+BenchmarkEmptyStruct-8        	50000000	        28.3 ns/op
+BenchmarkReflectionString-8   	10000000	       159 ns/op
+BenchmarkEmptyString-8        	200000000	         9.49 ns/op
+```
 
 ## Installing
 
@@ -26,7 +64,7 @@ Then install the binary in your `GOPATH` for use on the command line, or build a
 ## Running
 ### Usage
 ```	sh
-gencheck -f file.go -t="SomeTemplate.tmpl" --template="SomeOtherTemplate.tmpl" -d="some/dir" --template-dir="some/dir/that/has/templates"
+gencheck -f=file.go -t="SomeTemplate.tmpl" --template="SomeOtherTemplate.tmpl" -d="some/dir" --template-dir="some/dir/that/has/templates"
 ```
 
 ### Examples
@@ -59,9 +97,10 @@ In the above example, the `hex` and `notnil` Validations are parameterless, wher
 Name | Params | Allowed Field Types | Description
 ---- | ------------------- | ------ | -----------
 hex  | N/A | `(*)string` | Checks if a string field is a valid hexadecimal format number (0x prefix optional)
-notnil | N/A | pointers | Checks and fails if a pointer is nil
-len | 1 | `(*)string` | Checks if a string's length matches the tag's parameter
+notnil | N/A | pointers, interfaces, chans, maps, slices | Checks and fails if a pointer is nil
+len | 1 | `(*)string, int, slices, maps, chans(?)` | Checks if a string's length matches the tag's parameter
 uuid | N/A | `(*)string` | Checks and fails if a string is not a valid UUID
+required | N/A | any non-numeric / non-boolean field | Checks to see that the field is not equal to the zero value of its type.  Integers and booleans are not supported in case `0` or `false` are allowed values.
 
 ### Writing your own Validations
 gencheck allows developers to write and attach their own Validation templates to the generator.
@@ -81,6 +120,20 @@ gencheck allows developers to write and attach their own Validation templates to
 1. Add `valid` tags to your struct fields
 1. Run gencheck: `gencheck -f=file.go -t=MyTemplate`
 
+NOTES:
+
+- In your template, the . pipeline is an instance of the `generator.Validation` struct.
+- The template functions from [Sprig](github.com/Masterminds/sprig) have been included.
+- There are some custom functions provided for you to help in determining the ast field type
+  - isPtr"
+  - addError
+  - isNullable
+  - isMap
+  - isArray
+  - generationError
+  - isStruct
+  - isStructPtr
+
 [More Examples](internal/example/)
 
 ## Development
@@ -98,7 +151,7 @@ Tested on go 1.7.3.
 - [x] Prevent duplicate validations on the same field
 - [x] Update Required tag to error out on numerical or boolean fields
 - [ ] Support for sub-validations? `Struct fields: generated code will call static Validate method on any field that implements Validateable interface`  Maybe use a deep check
-- [ ] Readme info for what information is available within the templates.
+- [x] Readme info for what information is available within the templates.
 
 ### CI
 

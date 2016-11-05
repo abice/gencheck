@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"go/ast"
-	"reflect"
 )
 
 const (
@@ -15,10 +14,6 @@ const (
 func addFieldError(v Validation, eString string) (ret string, err error) {
 	ret = fmt.Sprintf(errorFormat, v.StructName, v.FieldName, v.Name, eString)
 	return
-}
-
-func typeof(v interface{}) string {
-	return reflect.TypeOf(v).String()
 }
 
 // IsPtr is a helper method for templates to use to determine if a field is a pointer.
@@ -135,15 +130,4 @@ func getIdentType(ident *ast.Ident) ast.Expr {
 		}
 	}
 	return ident
-}
-
-func getExprIdentType(e ast.Expr) ast.Expr {
-	if ident, ok := e.(*ast.Ident); ok {
-		if ident.Obj != nil {
-			if spec, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
-				return spec.Type
-			}
-		}
-	}
-	return e
 }

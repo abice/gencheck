@@ -65,7 +65,6 @@ func NewGenerator() *Generator {
 	funcs["isPtr"] = isPtr
 	funcs["addError"] = addFieldError
 	funcs["isNullable"] = isNullable
-	funcs["typeof"] = typeof
 	funcs["isMap"] = isMap
 	funcs["isArray"] = isArray
 	funcs["generationError"] = GenerationError
@@ -92,20 +91,15 @@ func (g *Generator) WithPointerMethod() *Generator {
 // CallTemplate is a helper method for the template to call a parsed template but with
 // a dynamic name.
 func (g *Generator) CallTemplate(rule Validation, data interface{}) (ret string, err error) {
-	found := false
-	for _, temp := range g.t.Templates() {
-		if rule.Name == temp.Name() {
-			found = true
-			break
-		}
-	}
 	buf := bytes.NewBuffer([]byte{})
-	if !found {
-		fmt.Printf("No template named for '%s' found, ignoring...\n", rule.Name)
-	} else {
+
+	// We don't need an else statement here because we already filter out unknown templates
+	// during the parsing phase.
+	if _, found := g.knownTemplates[rule.Name]; found {
 		err = g.t.ExecuteTemplate(buf, rule.Name, data)
 	}
 	ret = buf.String()
+
 	return
 }
 
