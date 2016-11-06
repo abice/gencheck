@@ -2,7 +2,7 @@
 Validation generator for go.
 
 ## How it works
-gencheck was built using the idea of [zencoder/gokay](github.com/zencoder/gokay), but uses templates to create validations for a struct.
+gencheck was built using the idea of [zencoder/gokay](https://github.com/zencoder/gokay), but uses templates to create validations for a struct.
 
 gencheck will use the `valid` tag within a struct to generate a `Validate()` method, which is will store in a `file_validators.go` file
 next to the input file.
