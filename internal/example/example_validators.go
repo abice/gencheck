@@ -7,7 +7,8 @@ import (
 )
 
 func (s Example) Validate() error {
-	var vErrors gencheck.ValidationErrors
+
+	vErrors := make(gencheck.ValidationErrors, 0, 1)
 
 	// BEGIN MapOfInterfaces Validations
 	// notnil
@@ -25,13 +26,14 @@ func (s Example) Validate() error {
 }
 
 func (s Test) Validate() error {
-	var vErrors gencheck.ValidationErrors
+
+	vErrors := make(gencheck.ValidationErrors, 0, 12)
 
 	// BEGIN RequiredString Validations
 	// required
 
 	if s.RequiredString == "" {
-		vErrors = append(vErrors, gencheck.NewFieldError("Test", "RequiredString", "required", errors.New("is required")))
+		return append(vErrors, gencheck.NewFieldError("Test", "RequiredString", "required", errors.New("is required")))
 	}
 
 	// END RequiredString Validations
@@ -71,6 +73,60 @@ func (s Test) Validate() error {
 	}
 
 	// END LenMultiple Validations
+
+	// BEGIN MinString Validations
+	// min
+
+	if len(s.MinString) < 1 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinString", "min", errors.New("length was less than 1")))
+	}
+
+	// END MinString Validations
+
+	// BEGIN MinNumber Validations
+	// min
+
+	if s.MinNumber < 1113.00 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinNumber", "min", errors.New("was less than 1113.00")))
+	}
+
+	// END MinNumber Validations
+
+	// BEGIN MinMultiple Validations
+	// min
+
+	if len(s.MinMultiple) < 7 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinMultiple", "min", errors.New("length was less than 7")))
+	}
+
+	// END MinMultiple Validations
+
+	// BEGIN MaxString Validations
+	// max
+
+	if len(s.MaxString) > 3 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MaxString", "max", errors.New("length was more than 3")))
+	}
+
+	// END MaxString Validations
+
+	// BEGIN MaxNumber Validations
+	// max
+
+	if s.MaxNumber > 1113.00 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MaxNumber", "max", errors.New("was more than 1113.00")))
+	}
+
+	// END MaxNumber Validations
+
+	// BEGIN MaxMultiple Validations
+	// max
+
+	if len(s.MaxMultiple) > 7 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MaxMultiple", "max", errors.New("length was more than 7")))
+	}
+
+	// END MaxMultiple Validations
 
 	// BEGIN UUID Validations
 	// uuid

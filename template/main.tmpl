@@ -11,7 +11,11 @@ import (
 func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
   {{/* Only make the errors map if we're going to use it. */}}
   {{- if gt (len .rules) 0 -}}
+  {{if .globalFailFast}}
   var vErrors gencheck.ValidationErrors
+  {{else}}
+  vErrors := make(gencheck.ValidationErrors, 0, {{len .rules}})
+  {{end}}
   {{ end }}
   {{/* Iterate through the rule map to create the rules */}}
   {{range $index, $field := .rules -}}

@@ -32,8 +32,8 @@ clean:
 generate:
 	go-bindata -o generator/assets.go -pkg=generator template/*.tmpl
 
-gen-test: build
-	./bin/gencheck -f=./internal/example/example.go
+gen-test: build install
+	go generate $$(glide novendor)
 
 install:
 	go install ./gencheck

@@ -67,6 +67,13 @@ Then install the binary in your `GOPATH` for use on the command line, or build a
 gencheck -f=file.go -t="SomeTemplate.tmpl" --template="SomeOtherTemplate.tmpl" -d="some/dir" --template-dir="some/dir/that/has/templates"
 ```
 
+### Using with `go generate`
+Add a `//go:generate` tag to the top of your file that you want to generate for, including the file name.
+
+```go
+//go:generate gencheck -f=this_file.go
+```
+
 ### Examples
 Generate validation methods for types in a single file
 ```sh
@@ -101,6 +108,14 @@ notnil | N/A | pointers, interfaces, chans, maps, slices | Checks and fails if a
 len | 1 | `(*)string, int, slices, maps, chans(?)` | Checks if a string's length matches the tag's parameter
 uuid | N/A | `(*)string` | Checks and fails if a string is not a valid UUID
 required | N/A | any non-numeric / non-boolean field | Checks to see that the field is not equal to the zero value of its type.  Integers and booleans are not supported in case `0` or `false` are allowed values.
+min | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a minimum.  Strings revert to `len(string)`
+max | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a maximum.  Strings revert to `len(string)`
+ff  | N/A | N/A | Fail Fast allows you to specify that if any validation within this field is invalid see [Fail Fast](#Fail Fast Flag) for more information
+
+### Fail Fast flag
+The fail fast flag is a built-in validation flag that will allow you to return immediately on an invalid check.  This allows you to not waste time checking the rest of the struct if a vital field is wrong.  It can be placed anywhere within the `valid` tag, and will be applied to **all** rules within that field.
+
+There is also a `--failfast` flag on the cli that will allow you to make **all** validations within **all** structs found in the files to be fail fast.
 
 ### Writing your own Validations
 gencheck allows developers to write and attach their own Validation templates to the generator.

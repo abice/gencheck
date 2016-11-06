@@ -1,3 +1,5 @@
+//go:generate gencheck -f=example.go
+
 package example
 
 import "time"
@@ -19,7 +21,7 @@ type Inner struct {
 type Test struct {
 	Inner Inner
 	// RequiredNumber    int       `valid:"required"`
-	RequiredString    string    `valid:"required"`
+	RequiredString    string    `valid:"required,ff"`
 	RequiredMultiple  []string  `valid:"required"`
 	LenString         string    `valid:"len=1"`
 	LenNumber         float64   `valid:"len=1113.00"`

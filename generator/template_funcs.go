@@ -7,12 +7,17 @@ import (
 )
 
 const (
-	errorFormat = `vErrors = append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
+	errorFormat         = `vErrors = append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
+	failFastErrorFormat = `return append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
 )
 
 // addFieldError is a helper method for templates to add an error to a field.
 func addFieldError(v Validation, eString string) (ret string, err error) {
-	ret = fmt.Sprintf(errorFormat, v.StructName, v.FieldName, v.Name, eString)
+	if v.FailFast {
+		ret = fmt.Sprintf(failFastErrorFormat, v.StructName, v.FieldName, v.Name, eString)
+	} else {
+		ret = fmt.Sprintf(errorFormat, v.StructName, v.FieldName, v.Name, eString)
+	}
 	return
 }
 

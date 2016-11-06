@@ -17,7 +17,8 @@ import (
 )
 
 const (
-	validateTag = `valid:`
+	validateTag  = `valid:`
+	failFastFlag = `ff`
 )
 
 // Validation is a holder for a validation rule within the generation templates
@@ -30,15 +31,17 @@ type Validation struct {
 	F          *ast.Field
 	FieldType  string
 	StructName string
+	FailFast   bool
 }
 
 // Field is used for storing field information.  It holds a reference to the
 // original AST field information to help out if needed.
 type Field struct {
-	Name  string
-	F     *ast.Field
-	Rules []Validation
-	Type  string
+	Name     string
+	F        *ast.Field
+	Rules    []Validation
+	Type     string
+	FailFast bool
 }
 
 // Generator is responsible for generating validation files for the given in a go source file.
@@ -47,6 +50,7 @@ type Generator struct {
 	knownTemplates        map[string]*template.Template
 	fileSet               *token.FileSet
 	generatePointerMethod bool
+	failFast              bool
 }
 
 // NewGenerator is a constructor method for creating a new Generator with default
@@ -57,6 +61,7 @@ func NewGenerator() *Generator {
 		t:                     template.New("generator"),
 		fileSet:               token.NewFileSet(),
 		generatePointerMethod: false,
+		failFast:              false,
 	}
 
 	funcs := sprig.TxtFuncMap()
@@ -85,6 +90,12 @@ func NewGenerator() *Generator {
 // WithPointerMethod is used to change the method generated for a struct to use a pointer receiver rather than a value receiver.
 func (g *Generator) WithPointerMethod() *Generator {
 	g.generatePointerMethod = true
+	return g
+}
+
+// WithFailFast is used to change all error checks to return immediately on failure.
+func (g *Generator) WithFailFast() *Generator {
+	g.failFast = true
 	return g
 }
 
@@ -181,8 +192,12 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 							// Store the validation as the duplication check so that *if* in the future we want to support certain rules as
 							// having duplicates, we can do that easier.
 							dupecheck := make(map[string]Validation)
-
 							for _, rule := range fieldRules {
+								// Check for fail fast and ignore that rule
+								if rule == failFastFlag {
+									f.FailFast = true
+									continue
+								}
 								// Rules are able to have parameters,
 								// but will have an = in them if that is the case.
 
@@ -214,6 +229,13 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 									fmt.Printf("Skipping unknown validation template: '%s'\n", v.Name)
 								}
 							}
+
+							if f.FailFast || g.failFast {
+								for index, val := range f.Rules {
+									val.FailFast = true
+									f.Rules[index] = val
+								}
+							}
 						}
 					}
 
@@ -226,10 +248,11 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 		}
 
 		data := map[string]interface{}{
-			"st":        st,
-			"name":      name,
-			"rules":     rules,
-			"ptrMethod": g.generatePointerMethod,
+			"st":             st,
+			"name":           name,
+			"rules":          rules,
+			"ptrMethod":      g.generatePointerMethod,
+			"globalFailFast": g.failFast,
 		}
 
 		if len(rules) > 0 {

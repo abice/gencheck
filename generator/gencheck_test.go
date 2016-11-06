@@ -98,6 +98,23 @@ func (s *generatorTestSuite) TestNoTemplate() {
 	s.Equal("package test\n", string(output))
 }
 
+func (s *generatorTestSuite) TestFailFastFlag() {
+	g := NewGenerator()
+	input := `package test
+	// SomeStruct
+	type SomeStruct struct {
+		TestString      string             ` + "`valid:\"required,ff\"`" + `
+	}
+	`
+	f, err := parser.ParseFile(g.fileSet, "TestStringInput", input, parser.ParseComments)
+	s.Nil(err, "Error parsing input string")
+
+	output, err := g.Generate(f)
+	s.Require().Nil(err, "Error generating output")
+
+	s.Contains(string(output), "return append(vErrors,", string(output))
+}
+
 func (s *generatorTestSuite) TestPointerFunc() {
 	g := NewGenerator().WithPointerMethod()
 	input := `package test
@@ -113,6 +130,24 @@ func (s *generatorTestSuite) TestPointerFunc() {
 	s.Require().Nil(err, "Error generating output")
 
 	s.Contains(string(output), "func (s *SomeStruct) Validate()")
+
+}
+
+func (s *generatorTestSuite) TestFailFast() {
+	g := NewGenerator().WithFailFast()
+	input := `package test
+	// SomeStruct
+	type SomeStruct struct {
+		TestString      string             ` + "`valid:\"required\"`" + `
+	}
+	`
+	f, err := parser.ParseFile(g.fileSet, "TestStringInput", input, parser.ParseComments)
+	s.Nil(err, "Error parsing input string")
+
+	output, err := g.Generate(f)
+	s.Require().Nil(err, "Error generating output")
+
+	s.Contains(string(output), "return append(vErrors,")
 
 }
 

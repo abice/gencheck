@@ -17,6 +17,7 @@ type rootT struct {
 	PointerReceiver bool     `cli:"ptr" usage:"turn on pointer receiver generation for validation method." dft:"false"`
 	CustomTemplates []string `cli:"t,template" usage:"custom template files"`
 	TemplateDirs    []string `cli:"d,template-dir" usage:"custom template folders"`
+	FailFast        bool     `cli:"failfast" usage:"Tell the generator to fail all structs fast"`
 }
 
 func main() {
@@ -29,6 +30,10 @@ func main() {
 
 			if argv.PointerReceiver {
 				g.WithPointerMethod()
+			}
+
+			if argv.FailFast {
+				g.WithFailFast()
 			}
 
 			if len(argv.CustomTemplates) > 0 {
