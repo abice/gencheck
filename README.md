@@ -2,7 +2,7 @@
 Validation generator for go.
 
 ## How it works
-gencheck was built using the idea of [gokay](github.com/zencoder/gokay), but uses templates to create validations for a struct.
+gencheck was built using the idea of [zencoder/gokay](github.com/zencoder/gokay), but uses templates to create validations for a struct.
 
 gencheck will use the `valid` tag within a struct to generate a `Validate()` method, which is will store in a `file_validators.go` file
 next to the input file.
@@ -49,6 +49,22 @@ BenchmarkReflectionStruct-8   	 5000000	       262 ns/op
 BenchmarkEmptyStruct-8        	50000000	        28.3 ns/op
 BenchmarkReflectionString-8   	10000000	       159 ns/op
 BenchmarkEmptyString-8        	200000000	         9.49 ns/op
+
+```
+Benchmarks using fail fast flag
+```
+BenchmarkValidString-8            	300000000	         5.02 ns/op
+BenchmarkFailing1TestString-8     	10000000	       158 ns/op
+BenchmarkFailing2TestString-8     	10000000	       159 ns/op
+BenchmarkFailingAllTestString-8   	10000000	       164 ns/op
+```
+
+Benchmarks without fail fast flag and preallocated capacity for errors
+```
+BenchmarkValidString-8            	20000000	        68.7 ns/op
+BenchmarkFailing1TestString-8     	10000000	       189 ns/op
+BenchmarkFailing2TestString-8     	 5000000	       272 ns/op
+BenchmarkFailingAllTestString-8   	 3000000	       418 ns/op
 ```
 
 ## Installing
@@ -140,7 +156,7 @@ NOTES:
 - In your template, the . pipeline is an instance of the `generator.Validation` struct.
 - The template functions from [Sprig](github.com/Masterminds/sprig) have been included.
 - There are some custom functions provided for you to help in determining the ast field type
-  - isPtr"
+  - isPtr
   - addError
   - isNullable
   - isMap

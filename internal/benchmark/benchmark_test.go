@@ -73,7 +73,7 @@ func BenchmarkFailing2TestString(b *testing.B) {
 
 // BenchmarkEmptyStruct is a quick benchmark to determine performance of just using an empty var
 // for zero value comparison
-func BenchmarkFailingTestString(b *testing.B) {
+func BenchmarkFailingAllTestString(b *testing.B) {
 	uut := TestString{
 		Required: "",
 		Len:      "12345678901",
