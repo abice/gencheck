@@ -25,6 +25,7 @@ func (s Example) Validate() error {
 	if len(vErrors) > 0 {
 		return vErrors
 	}
+
 	return nil
 }
 
@@ -146,5 +147,6 @@ func (s Test) Validate() error {
 	if len(vErrors) > 0 {
 		return vErrors
 	}
+
 	return nil
 }

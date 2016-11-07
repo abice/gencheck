@@ -36,9 +36,12 @@ func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
   {{- end}}
   {{/* Only check the errors map if we have rules. */}}
   {{ if gt (len .rules) 0 }}
+  {{/* Only add check if we're not always failing fast. */}}
+  {{if not .globalFailFast}}
   if len(vErrors) >0 {
     return vErrors
   }
+  {{end}}
   {{- end}}
   return nil
 }

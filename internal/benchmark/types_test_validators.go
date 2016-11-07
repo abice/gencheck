@@ -22,9 +22,6 @@ func (s SingleString) Validate() error {
 
 	// END Entry Validations
 
-	if len(vErrors) > 0 {
-		return vErrors
-	}
 	return nil
 }
 
@@ -71,8 +68,5 @@ func (s TestString) Validate() error {
 
 	// END Max Validations
 
-	if len(vErrors) > 0 {
-		return vErrors
-	}
 	return nil
 }
