@@ -71,11 +71,11 @@ BenchmarkFailingAllTestString-8   	 3000000	       418 ns/op
 
 First use `go get` to install the latest version of the library.
 
-`go get -v github.com/abice/gencheck/cmd`
+`go get -v github.com/abice/gencheck/gencheck`
 
-Then install the binary in your `GOPATH` for use on the command line, or build args.
+Normally the above command will build and install the binary, but just to be sure it is installed in your `GOPATH` for use on the command line, or build args:
 
-`go install github.com/abice/gencheck/cmd`
+`go install github.com/abice/gencheck/gencheck`
 
 ## Running
 ### Usage
@@ -153,8 +153,8 @@ gencheck allows developers to write and attach their own Validation templates to
 
 NOTES:
 
-- In your template, the . pipeline is an instance of the `generator.Validation` struct.
-- The template functions from [Sprig](github.com/Masterminds/sprig) have been included.
+- In your template, the . pipeline is an instance of the [`generator.Validation`](generator/types.go#L27) struct.
+- The template functions from [Sprig](https://github.com/Masterminds/sprig) have been included.
 - There are some custom functions provided for you to help in determining the ast field type
   - isPtr
   - addError
@@ -178,7 +178,7 @@ Tested on go 1.7.3.
     make test
 
 ### TODO
-- [ ] Testing for templates
+- [x] Testing for templates
 - [x] Prevent duplicate validations on the same field
 - [x] Update Required tag to error out on numerical or boolean fields
 - [ ] Support for sub-validations? `Struct fields: generated code will call static Validate method on any field that implements Validateable interface`  Maybe use a deep check
