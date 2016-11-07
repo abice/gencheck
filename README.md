@@ -1,4 +1,4 @@
-# gencheck [![CircleCI](https://circleci.com/gh/abice/gencheck.svg?style=svg&circle-token=db146e1d9c8d935d7bd05ac879f818801c432ea4)](https://circleci.com/gh/abice/gencheck) [![Coverage Status](https://coveralls.io/repos/github/abice/gencheck/badge.svg)](https://coveralls.io/github/abice/gencheck)
+# gencheck [![CircleCI](https://circleci.com/gh/abice/gencheck.svg?style=svg&circle-token=db146e1d9c8d935d7bd05ac879f818801c432ea4)](https://circleci.com/gh/abice/gencheck) [![Coverage Status](https://coveralls.io/repos/github/abice/gencheck/badge.svg)](https://coveralls.io/github/abice/gencheck)[![Go Report Card](https://goreportcard.com/badge/github.com/abice/gencheck)](https://goreportcard.com/report/github.com/abice/gencheck)
 Validation generator for go.
 
 ## How it works
