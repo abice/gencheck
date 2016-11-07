@@ -102,11 +102,11 @@ func (g *Generator) GenerateFromFile(inputFile string) ([]byte, error) {
 
 }
 
-type ByPosition []*ast.Field
+type byPosition []*ast.Field
 
-func (a ByPosition) Len() int           { return len(a) }
-func (a ByPosition) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
-func (a ByPosition) Less(i, j int) bool { return a[i].Pos() < a[j].Pos() }
+func (a byPosition) Len() int           { return len(a) }
+func (a byPosition) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byPosition) Less(i, j int) bool { return a[i].Pos() < a[j].Pos() }
 
 // Generate does the heavy lifting for the code generation starting from the parsed AST file.
 func (g *Generator) Generate(f *ast.File) ([]byte, error) {
@@ -134,7 +134,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 		var rules []Field
 
 		fieldList := st.Fields.List
-		sort.Sort(ByPosition(fieldList))
+		sort.Sort(byPosition(fieldList))
 
 		// Go through the fields in the struct and find all the validated tags
 		for _, field := range fieldList {

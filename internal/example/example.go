@@ -4,11 +4,12 @@ package example
 
 import "time"
 
-// Example
+// Example struct for testing
 type Example struct {
 	MapOfInterfaces map[string]interface{} `valid:"notnil"`
 }
 
+// Inner is another example struct for testing
 type Inner struct {
 	EqCSFieldString  string
 	NeCSFieldString  string
@@ -18,6 +19,7 @@ type Inner struct {
 	LteCSFieldString string
 }
 
+// Test is a test struct for testing.
 type Test struct {
 	Inner Inner
 	// RequiredNumber    int       `valid:"required"`

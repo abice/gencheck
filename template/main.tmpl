@@ -8,6 +8,9 @@ import (
 
 {{- define "struct"}}
 {{$ruleMap := .rules -}}
+// Validate is an automatically generated validation method provided by
+// gencheck.
+// See https://github.com/abice/gencheck for more details.
 func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
   {{/* Only make the errors map if we're going to use it. */}}
   {{- if gt (len .rules) 0 -}}

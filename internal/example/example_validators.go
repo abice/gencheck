@@ -6,6 +6,9 @@ import (
 	"github.com/abice/gencheck"
 )
 
+// Validate is an automatically generated validation method provided by
+// gencheck.
+// See https://github.com/abice/gencheck for more details.
 func (s Example) Validate() error {
 
 	vErrors := make(gencheck.ValidationErrors, 0, 1)
@@ -25,6 +28,9 @@ func (s Example) Validate() error {
 	return nil
 }
 
+// Validate is an automatically generated validation method provided by
+// gencheck.
+// See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
 	vErrors := make(gencheck.ValidationErrors, 0, 12)

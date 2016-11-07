@@ -18,7 +18,7 @@ func (s *notnilTestSuite) SetupSuite() {
 }
 
 // TestLengthTestSuite
-func TestnotnilTestSuite(t *testing.T) {
+func TestNotnilTestSuite(t *testing.T) {
 	suite.Run(t, new(notnilTestSuite))
 }
 

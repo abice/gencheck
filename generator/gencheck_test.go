@@ -181,16 +181,16 @@ func (s *generatorTestSuite) TestAddTemplateFile() {
 var result bool
 
 var EmptyStructs = []Inner{
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
-	Inner{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
 }
 
 // BenchmarkReflection is a quick test to see how much of an impact reflection has

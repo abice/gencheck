@@ -5,16 +5,16 @@ import "testing"
 var result bool
 var errResult error
 var EmptyStructs = []TestString{
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
-	TestString{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
+	{},
 }
 
 // BenchmarkEmptyInt is a quick benchmark to determine performance of just using an empty var

@@ -3,12 +3,14 @@ ifdef CIRCLE_ARTIFACTS
   COVERAGEDIR = $(CIRCLE_ARTIFACTS)
 endif
 
-all: generate build test cover install
+all: generate fmt build test cover install
 install-deps:
 	glide install
 build: generate
 	if [ ! -d bin ]; then mkdir bin; fi
 	go build -v -o bin/gencheck ./gencheck
+fmt:
+	gofmt -l -w -s $$(find . -type f -name '*.go' -not -path "./vendor/*")
 test: generate gen-test
 	if [ ! -d coverage ]; then mkdir coverage; fi
 	go test -v ./generator -race -cover -coverprofile=$(COVERAGEDIR)/generator.coverprofile
