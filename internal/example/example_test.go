@@ -56,6 +56,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "MaxNumber", "max", fmt.Errorf("was more than 1113.00")),
 		gencheck.NewFieldError("Test", "MaxMultiple", "max", fmt.Errorf("length was more than 7")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
+		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
 	}
 
 	underTest := Test{
@@ -66,6 +67,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 	}
 
 	err := underTest.Validate()
+	s.Error(err, "Error should not be nil")
 	s.Require().IsType(gencheck.ValidationErrors{}, err, "Error returned was not ValidationErrors type")
 
 	ve := err.(gencheck.ValidationErrors)
@@ -77,9 +79,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 	}
 }
 
-// TestValidateTestStruct_NoValues
+// TestValidateTestStruct_Values
 func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
-
+	i := int64(2000)
 	underTest := Test{
 		LenMultiple:      []string{"", "", "", "", "", "", ""},
 		LenNumber:        1113,
@@ -90,11 +92,38 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		MinNumber:        1113.000001,
 		MinMultiple:      []string{"", "", "", "", "", "", "", ""},
 		UUID:             "7112EE37-3219-4A26-BA01-1D230BC9257B",
+		MinIntPtr:        &i,
 	}
 
 	err := underTest.Validate()
 	s.Nil(err, "Valid Struct should not have had an error")
 
+}
+
+// TestValidateTestStruct_Values
+func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
+	i := int64(1233)
+	underTest := Test{
+		LenMultiple:      []string{"", "", "", "", "", "", ""},
+		LenNumber:        1113,
+		LenString:        "a",
+		RequiredMultiple: []string{},
+		RequiredString:   "b",
+		MinString:        "1234567",
+		MinNumber:        1113.000001,
+		MinMultiple:      []string{"", "", "", "", "", "", "", ""},
+		UUID:             "7112EE37-3219-4A26-BA01-1D230BC9257B",
+		MinIntPtr:        &i,
+	}
+
+	err := underTest.Validate()
+	s.Error(err, "Valid Struct should not have had an error")
+	s.Require().IsType(gencheck.ValidationErrors{}, err, "Error returned was not ValidationErrors type")
+
+	ve := err.(gencheck.ValidationErrors)
+	s.Require().Len(ve, 1, "Should only have 1 validation error")
+
+	s.Require().EqualValues(ve[0], gencheck.NewFieldError("Test", "MinIntPtr", "min", fmt.Errorf("was less than 1234")), "Error should be min error")
 }
 
 // TestValidateExample_NilMap

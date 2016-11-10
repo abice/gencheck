@@ -34,7 +34,7 @@ func (s Example) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 12)
+	vErrors := make(gencheck.ValidationErrors, 0, 13)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -143,6 +143,21 @@ func (s Test) Validate() error {
 	}
 
 	// END UUID Validations
+
+	// BEGIN MinIntPtr Validations
+	// required
+
+	if s.MinIntPtr == nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinIntPtr", "required", errors.New("is required")))
+	}
+
+	// min
+
+	if s.MinIntPtr != nil && *s.MinIntPtr < 1234 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinIntPtr", "min", errors.New("was less than 1234")))
+	}
+
+	// END MinIntPtr Validations
 
 	if len(vErrors) > 0 {
 		return vErrors

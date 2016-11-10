@@ -119,4 +119,5 @@ type Test struct {
 	UinxAddr          string    `valid:"unix_addr"` // can't fail from within Go's net package currently, but maybe in the future
 	MAC               string    `valid:"mac"`
 	IsColor           string    `valid:"iscolor"`
+	MinIntPtr         *int64    `valid:"required,min=1234"`
 }
