@@ -1,20 +1,28 @@
-
 {{define "max"}}
 {{/* Use the built in len function for the types that support it. */}}
 {{ if or ( isMap . ) ( isArray . ) (eq .FieldType "string") (hasPrefix "chan" .FieldType)}}
-  if len(s.{{.FieldName}}) > {{.Param}} {
-    {{ addError . (printf "errors.New(\"length was more than %s\")" .Param) }}
+  if len(s.{{.FieldName}}) >{{ if eq .Name "lt" }}={{end}} {{.Param}} {
+    {{ addError . (printf "errors.New(\"length failed check for %s=%s\")" .Name .Param) }}
   }
 {{/* Checks for integer values */}}
 {{ else if eq (trimPrefix "*" .FieldType) "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64" "byte" "rune"}}
-if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} > {{.Param}} {
-  {{ addError . (printf "errors.New(\"was less than %s\")" .Param) }}
-}
+  {{ template "max_Int" . }}
 {{ else if eq (trimPrefix "*" .FieldType) "float" "float32" "float64" "complex64" "complex128" }}
-if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} > {{.Param}} {
-  {{ addError . (printf "errors.New(\"was more than %s\")" .Param) }}
-}
+  {{ template "max_Float" . }}
 {{ else }}
-{{ generationError (printf "min is not valid on field '%s %s'" .FieldName .FieldType) }}
+  {{ generationError (printf "max is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{ end }}
 {{end -}}
+
+
+{{ define "max_Int"}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} >{{ if eq .Name "lt" }}={{end}} {{.Param}} {
+  {{ addError . (printf "errors.New(\"failed check for %s=%s\")" .Name .Param) }}
+}
+{{end}}
+
+{{ define "max_Float"}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} >{{ if eq .Name "lt" }}={{end}} {{.Param}} {
+  {{ addError . (printf "errors.New(\"failed check for %s=%s\")" .Name .Param) }}
+}
+{{end}}

@@ -1,0 +1,24 @@
+{{ define "gt"}}
+{{ if eq (trimPrefix "*" .FieldType) "time.Time" }}
+  {{ template "gt_Time" . }}
+{{ else }}
+{{ template "min" . }}
+{{ end }}
+{{end -}}
+
+
+{{ define "gt_Time" }}
+{{$accessor := (printf "s.%s" .FieldName)}}
+{{ if isPtr . }}if {{$accessor}} != nil { {{- end}}
+{{- if eq "" .Param }}
+t{{.FieldName}} := time.Now().UTC()
+if !{{ if isPtr .}}(*{{$accessor}}){{else}}{{$accessor}}{{end}}.After(t{{.FieldName}}) {
+  {{ addError . (printf "errors.New(\"is before %s\")" "now") }}
+}
+{{else}}
+  t{{.FieldName}} := time.Now().UTC().Add({{.Param}})
+  if !{{ if isPtr .}}(*{{$accessor}}){{else}}{{$accessor}}{{end}}.After(t{{.FieldName}}) {
+    {{ addError . (printf "fmt.Errorf(\"is before %%s\", t%s)" .FieldName) }}
+  }
+{{end -}}
+{{ if isPtr . }}}{{end}}{{ end -}}

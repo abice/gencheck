@@ -2,19 +2,27 @@
 {{define "min"}}
 {{/* Use the built in len function for the types that support it. */}}
 {{ if or ( isMap . ) ( isArray . ) (eq .FieldType "string") (hasPrefix "chan" .FieldType)}}
-  if len(s.{{.FieldName}}) < {{.Param}} {
-    {{ addError . (printf "errors.New(\"length was less than %s\")" .Param) }}
+  if len(s.{{.FieldName}}) <{{ if eq .Name "gt" }}={{end}} {{.Param}} {
+    {{ addError . (printf "errors.New(\"length failed check for %s=%s\")" .Name .Param) }}
   }
 {{/* Adding checks for integer values to coincide with the precedent set by go-playground/validator */}}
 {{ else if eq (trimPrefix "*" .FieldType) "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64" "byte" "rune"}}
-if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} < {{.Param}} {
-  {{ addError . (printf "errors.New(\"was less than %s\")" .Param) }}
-}
+{{ template "min_Int" . }}
 {{ else if eq (trimPrefix "*" .FieldType) "float" "float32" "float64" "complex64" "complex128" }}
-if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} < {{.Param}} {
-  {{ addError . (printf "errors.New(\"was less than %s\")" .Param) }}
-}
+{{ template "min_Float" . }}
 {{ else }}
 {{ generationError (printf "min is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{ end }}
 {{end -}}
+
+{{ define "min_Int"}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} <{{ if eq .Name "gt" }}={{end}} {{.Param}} {
+  {{ addError . (printf "errors.New(\"failed check for %s=%s\")" .Name .Param) }}
+}
+{{end}}
+
+{{ define "min_Float"}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} <{{ if eq .Name "gt" }}={{end}} {{.Param}} {
+  {{ addError . (printf "errors.New(\"failed check for %s=%s\")" .Name .Param) }}
+}
+{{end}}

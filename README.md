@@ -128,6 +128,22 @@ min | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a minimum.  Strin
 max | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a maximum.  Strings revert to `len(string)`
 ff  | N/A | N/A | Fail Fast allows you to specify that if any validation within this field is invalid see [Fail Fast](#Fail Fast Flag) for more information
 
+### Time comparisons
+Since the addition of `gt(e)` and `lt(e)`, there are now comparisons for `time.Time` values.  If no arguments are specified to those, then it calculates whether the
+field time is After and Before `time.Now().UTC()` respectively.  You can specify a parameter for those validations if you choose.  The parameter will be interpreted as
+the offset to use with respect to `time.Now().UTC()` by utilizing the `Add()` function.
+
+```go
+requestTime time.Time `valid:"gte=-1*time.Second"`
+```
+
+```go
+tGteTimeVal := time.Now().UTC().Add(-1 * time.Second)
+if s.GteTimeVal.Before(tGteTimeVal) {
+	vErrors = append(vErrors, gencheck.NewFieldError("Test", "GteTimeVal", "gte", fmt.Errorf("is before %s", tGteTimeVal)))
+}
+```
+
 ### Fail Fast flag
 The fail fast flag is a built-in validation flag that will allow you to return immediately on an invalid check.  This allows you to not waste time checking the rest of the struct if a vital field is wrong.  It can be placed anywhere within the `valid` tag, and will be applied to **all** rules within that field.
 
