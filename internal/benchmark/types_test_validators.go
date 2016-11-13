@@ -54,7 +54,7 @@ func (s TestString) Validate() error {
 	// min
 
 	if len(s.Min) < 5 {
-		return append(vErrors, gencheck.NewFieldError("TestString", "Min", "min", errors.New("length was less than 5")))
+		return append(vErrors, gencheck.NewFieldError("TestString", "Min", "min", errors.New("length failed check for min=5")))
 	}
 
 	// END Min Validations
@@ -63,7 +63,7 @@ func (s TestString) Validate() error {
 	// max
 
 	if len(s.Max) > 100 {
-		return append(vErrors, gencheck.NewFieldError("TestString", "Max", "max", errors.New("length was more than 100")))
+		return append(vErrors, gencheck.NewFieldError("TestString", "Max", "max", errors.New("length failed check for max=100")))
 	}
 
 	// END Max Validations

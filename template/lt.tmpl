@@ -1,0 +1,24 @@
+{{ define "lt"}}
+{{ if eq (trimPrefix "*" .FieldType) "time.Time" }}
+  {{ template "lt_Time" . }}
+{{ else }}
+{{ template "max" . }}
+{{ end }}
+{{end -}}
+
+
+{{ define "lt_Time" }}
+{{$accessor := (printf "s.%s" .FieldName)}}
+{{ if isPtr . }}if {{$accessor}} != nil { {{- end}}
+{{- if eq "" .Param }}
+t{{.FieldName}} := time.Now().UTC()
+if !{{ if isPtr .}}(*{{$accessor}}){{else}}{{$accessor}}{{end}}.Before(t{{.FieldName}}) {
+  {{ addError . (printf "errors.New(\"is after %s\")" "now") }}
+}
+{{else}}
+  t{{.FieldName}} := time.Now().UTC().Add({{.Param}})
+  if !{{ if isPtr .}}(*{{$accessor}}){{else}}{{$accessor}}{{end}}.Before(t{{.FieldName}}) {
+    {{ addError . (printf "fmt.Errorf(\"is after %%s\", t%s)" .FieldName) }}
+  }
+{{end -}}
+{{ if isPtr . }}}{{end}}{{ end -}}
