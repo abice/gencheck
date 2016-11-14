@@ -27,3 +27,4 @@ coverage/
 vendor/
 bin/
 *.diff
+/secrets.yml
