@@ -136,7 +136,7 @@ func templateGtTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/gt.tmpl", size: 769, mode: os.FileMode(420), modTime: time.Unix(1478873460, 0)}
+	info := bindataFileInfo{name: "template/gt.tmpl", size: 769, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -156,7 +156,7 @@ func templateGteTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/gte.tmpl", size: 771, mode: os.FileMode(420), modTime: time.Unix(1478873465, 0)}
+	info := bindataFileInfo{name: "template/gte.tmpl", size: 771, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -216,7 +216,7 @@ func templateLtTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/lt.tmpl", size: 769, mode: os.FileMode(420), modTime: time.Unix(1478874968, 0)}
+	info := bindataFileInfo{name: "template/lt.tmpl", size: 769, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -236,7 +236,7 @@ func templateLteTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/lte.tmpl", size: 766, mode: os.FileMode(420), modTime: time.Unix(1478873471, 0)}
+	info := bindataFileInfo{name: "template/lte.tmpl", size: 766, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -276,7 +276,7 @@ func templateMaxTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/max.tmpl", size: 1261, mode: os.FileMode(420), modTime: time.Unix(1478873138, 0)}
+	info := bindataFileInfo{name: "template/max.tmpl", size: 1261, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -296,7 +296,7 @@ func templateMinTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/min.tmpl", size: 1324, mode: os.FileMode(420), modTime: time.Unix(1478873986, 0)}
+	info := bindataFileInfo{name: "template/min.tmpl", size: 1324, mode: os.FileMode(420), modTime: time.Unix(1479132577, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

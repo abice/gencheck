@@ -1,0 +1,27 @@
+build:
+  testing:
+    image: golang:1.7.3
+    environment:
+      - GOPATH=/go
+    commands:
+      - go get github.com/jteeuwen/go-bindata/...
+      - go get github.com/Masterminds/glide
+      - go get golang.org/x/tools/cmd/cover
+      - go get github.com/abice/gencheck
+      - go get github.com/mattn/goveralls
+      - go get github.com/modocache/gover
+      - glide install
+      - make
+
+  pub-results:
+    image: golang:1.7.3
+    environment:
+      - GOPATH=/go
+      - COVERALLS_TOKEN="$$COVERALLS_TOKEN"
+    commands:
+      - make coveralls
+    when:
+        event: push
+
+workspace:
+  path: /go/src/github.com/abice/gencheck

@@ -165,7 +165,7 @@ type Test struct {
 	IPAddr            string    `validate:"ip_addr"`
 	IPAddrv4          string    `validate:"ip4_addr"`
 	IPAddrv6          string    `validate:"ip6_addr"`
-	UinxAddr          string    `validate:"unix_addr"` // can't fail from within Go's net package currently, but maybe in the future
+	UnixAddr          string    `validate:"unix_addr"` // can't fail from within Go's net package currently, but maybe in the future
 	MAC               string    `validate:"mac"`
 	IsColor           string    `validate:"iscolor"`
 }

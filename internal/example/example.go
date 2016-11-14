@@ -118,7 +118,7 @@ type Test struct {
 	IPAddr            string     `valid:"ip_addr"`
 	IPAddrv4          string     `valid:"ip4_addr"`
 	IPAddrv6          string     `valid:"ip6_addr"`
-	UinxAddr          string     `valid:"unix_addr"` // can't fail from within Go's net package currently, but maybe in the future
+	UnixAddr          string     `valid:"unix_addr"` // can't fail from within Go's net package currently, but maybe in the future
 	MAC               string     `valid:"mac"`
 	IsColor           string     `valid:"iscolor"`
 	MinIntPtr         *int64     `valid:"required,min=1234"`
