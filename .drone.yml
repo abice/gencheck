@@ -19,7 +19,10 @@ build:
       - GOPATH=/go
       - COVERALLS_TOKEN="$$COVERALLS_TOKEN"
     commands:
-      - make coveralls
+      - go get github.com/mattn/goveralls
+      - go get github.com/modocache/gover
+      - gover coverage coverage/coveralls.coverprofile
+      - goveralls -coverprofile=coverage/coveralls.coverprofile -service=drone.io -repotoken=$COVERALLS_TOKEN
     when:
         event: push
 
