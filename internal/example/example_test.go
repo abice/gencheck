@@ -79,6 +79,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "ContainsArray", "contains", fmt.Errorf("ContainsArray did not contain nonsense")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
 		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
+		gencheck.NewFieldError("Test", "InnerDive", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
+		gencheck.NewFieldError("Test", "InnerDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
 	}
 	testTime := time.Now().UTC()
 	notPurpose := "notPurpose"
@@ -96,6 +98,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		LteMultiple:    []string{"", "", ""},
 		GteTimePtr:     &testTime,
 		ContainsPtr:    &notPurpose,
+		InnerDivePtr:   &Inner{},
 	}
 
 	err := underTest.Validate()
@@ -108,6 +111,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 
 	for i, fe := range ve {
 		s.Contains(fe.Error(), strings.TrimSuffix(expected[i].Error(), "'"), "Error string mismatch")
+		s.Equal(fe.Tag(), expected[i].Tag())
 	}
 }
 
@@ -137,6 +141,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		GtString:         "1234",
 		Contains:         "purpose Of this test",
 		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
+		InnerDive:        Inner{EqCSFieldString: "test"},
+		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 	}
 
 	err := underTest.Validate()
@@ -170,6 +176,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		MinIntPtr:        &i,
 		Contains:         "purpose Of this test",
 		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
+		InnerDive:        Inner{EqCSFieldString: "test"},
+		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 	}
 
 	err := underTest.Validate()
@@ -231,6 +239,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		MinIntPtr:        &i,
 		Contains:         "purpose Of this test",
 		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
+		InnerDive:        Inner{EqCSFieldString: "test"},
+		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 	}
 
 	err := underTest.Validate()

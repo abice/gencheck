@@ -33,9 +33,30 @@ func (s Example) Validate() error {
 // Validate is an automatically generated validation method provided by
 // gencheck.
 // See https://github.com/abice/gencheck for more details.
+func (s Inner) Validate() error {
+
+	vErrors := make(gencheck.ValidationErrors, 0, 1)
+
+	// BEGIN EqCSFieldString Validations
+	// required
+	if s.EqCSFieldString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Inner", "EqCSFieldString", "required", errors.New("is required")))
+	}
+	// END EqCSFieldString Validations
+
+	if len(vErrors) > 0 {
+		return vErrors
+	}
+
+	return nil
+}
+
+// Validate is an automatically generated validation method provided by
+// gencheck.
+// See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 34)
+	vErrors := make(gencheck.ValidationErrors, 0, 36)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -296,6 +317,21 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MinIntPtr", "min", errors.New("failed check for min=1234")))
 	}
 	// END MinIntPtr Validations
+
+	// BEGIN InnerDive Validations
+	// dive
+	if err := gencheck.Validate(&s.InnerDive); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "InnerDive", "dive", err))
+	}
+	// END InnerDive Validations
+
+	// BEGIN InnerDivePtr Validations
+	// dive
+	if s.InnerDivePtr != nil {
+		if err := gencheck.Validate(s.InnerDivePtr); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "InnerDivePtr", "dive", err))
+		}
+	} // END InnerDivePtr Validations
 
 	if len(vErrors) > 0 {
 		return vErrors

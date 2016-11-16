@@ -11,7 +11,7 @@ type Example struct {
 
 // Inner is another example struct for testing
 type Inner struct {
-	EqCSFieldString  string
+	EqCSFieldString  string `valid:"required"`
 	NeCSFieldString  string
 	GtCSFieldString  string
 	GteCSFieldString string
@@ -124,4 +124,6 @@ type Test struct {
 	MAC               string     `valid:"mac"`
 	IsColor           string     `valid:"iscolor"`
 	MinIntPtr         *int64     `valid:"required,min=1234"`
+	InnerDive         Inner      `valid:"dive"`
+	InnerDivePtr      *Inner     `valid:"dive"`
 }
