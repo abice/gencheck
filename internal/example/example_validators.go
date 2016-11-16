@@ -320,7 +320,7 @@ func (s Test) Validate() error {
 
 	// BEGIN InnerDive Validations
 	// dive
-	if err := gencheck.Validate(&s.InnerDive); err != nil {
+	if err := gencheck.Validate(s.InnerDive); err != nil {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "InnerDive", "dive", err))
 	}
 	// END InnerDive Validations

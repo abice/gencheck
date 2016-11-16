@@ -122,7 +122,7 @@ func templateContainsTmpl() (*asset, error) {
 	return a, nil
 }
 
-var _templateDiveTmpl = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\x64\x90\x4d\x4b\x03\x31\x10\x86\xef\xfd\x15\xaf\x81\xda\x0f\xe8\xf6\xae\xf4\xa6\x1e\x45\x50\xbc\x87\xcd\xa4\x0e\xc6\x6c\x49\x62\x45\x86\xf9\xef\x92\x6c\xdb\x15\xbd\x4d\x86\x99\x67\x9e\xbc\x22\xdb\x35\x1c\x1f\x09\x5f\x1c\x02\x7a\x1b\x02\xf6\x14\xfb\x37\xea\xdf\x71\xb4\x81\x9d\x2d\x84\x21\xc2\x22\x97\xf4\xd9\x17\xac\xb7\xd8\xa8\xce\x44\x1c\x79\x8e\x04\x53\xb7\x4d\xeb\x80\x3d\x86\x84\x25\xe7\xe7\x71\xb6\x5b\x4d\x8f\xa7\x92\xea\x7b\x73\x99\xe4\xdc\x5a\x50\x65\x8f\xdc\x89\x74\x0f\x4c\xc1\x3d\xda\x0f\x52\xc5\xd5\x0e\x91\x03\x04\x22\x1b\x50\x74\x6d\x91\x3d\x28\x25\xdc\xec\x2e\x8e\xdd\xeb\xc9\x71\x39\x42\xe3\x50\xea\xc9\xd3\x31\xd5\x6b\x11\x8a\x4e\xf5\x2f\x7f\x75\xdb\x48\xe7\x2b\x33\x40\x04\xd6\xb9\xfb\x94\x86\x2a\x65\x28\x25\x03\xd5\xd9\x7f\x5b\x6d\xc8\xf3\x47\x28\x64\xc2\x58\xee\x29\x52\xb2\x85\x87\x38\x52\x96\x87\xc4\xb1\x78\x98\xbb\x9a\x2f\xe7\x26\xd7\x32\xad\x81\xfa\x2a\x83\xc5\x3c\x63\x9e\x17\x06\x93\xdc\xa9\x7c\xf9\x3e\xd0\x6a\x24\x4f\x01\xfc\xae\x7f\x02\x00\x00\xff\xff\x09\x06\x8c\xd7\xbb\x01\x00\x00")
+var _templateDiveTmpl = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\x64\x90\x41\x4b\x3b\x31\x10\xc5\xef\xfd\x14\xef\x1f\x28\xdd\x2d\xec\xf6\xfe\x97\xde\xd4\xa3\x08\x8a\xf7\xb0\x99\xd4\xc1\x98\x2d\x93\x58\x91\x21\xdf\x5d\xb2\xdb\x76\x45\x6f\x2f\xc3\x9b\x37\xbf\x3c\xd5\xdd\x16\x8e\x4f\x84\x4f\x0e\x01\x83\x0d\x01\x07\x8a\xc3\x2b\x0d\x6f\x38\xd9\xc0\xce\x66\xc2\x18\x61\x91\xb2\x7c\x0c\x19\xdb\x1d\xba\x52\x56\xaa\x8e\x3c\x47\x82\xa9\xdb\x66\x9a\x80\x3d\x46\x41\xc3\xe9\x69\xf6\xf6\xed\xf2\x78\xcc\x52\xdf\xdd\xd5\xc9\x69\x1a\xa1\x14\xf6\x48\xbd\x6a\x7f\xcf\x14\xdc\x83\x7d\xa7\x52\xf0\x6f\x8f\xc8\x01\x0a\xd5\x0e\x14\xdd\xb4\xc8\x1e\x24\x82\xff\xfb\x2b\x63\xff\x72\x66\x6c\x7e\x27\xb4\x37\x93\xf7\x92\xb3\x02\x54\x61\x9d\xbb\x13\x19\xeb\x59\x43\x22\x06\xa5\xac\xfe\xf2\x14\xd5\xcb\x45\x55\x50\x48\x84\x59\x1e\x28\x92\xd8\xcc\x63\x9c\x53\x9a\xa3\x70\xcc\x1e\xe6\xb6\x36\xc8\x09\x71\xcc\x73\x6b\xb5\x32\x5f\x61\xb0\x59\x27\xac\xd3\xc6\x60\x81\x3b\xcb\xe7\xaf\x23\xb5\x73\xf2\xf2\xc5\x9f\xfa\x3b\x00\x00\xff\xff\xe7\xd7\x61\x52\x9d\x01\x00\x00")
 
 func templateDiveTmplBytes() ([]byte, error) {
 	return bindataRead(
@@ -137,7 +137,7 @@ func templateDiveTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/dive.tmpl", size: 443, mode: os.FileMode(420), modTime: time.Unix(1479309934, 0)}
+	info := bindataFileInfo{name: "template/dive.tmpl", size: 413, mode: os.FileMode(420), modTime: time.Unix(1479312423, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -434,21 +434,21 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"template/bcp47.tmpl":    templateBcp47Tmpl,
+	"template/bcp47.tmpl": templateBcp47Tmpl,
 	"template/contains.tmpl": templateContainsTmpl,
-	"template/dive.tmpl":     templateDiveTmpl,
-	"template/gt.tmpl":       templateGtTmpl,
-	"template/gte.tmpl":      templateGteTmpl,
-	"template/hex.tmpl":      templateHexTmpl,
-	"template/len.tmpl":      templateLenTmpl,
-	"template/lt.tmpl":       templateLtTmpl,
-	"template/lte.tmpl":      templateLteTmpl,
-	"template/main.tmpl":     templateMainTmpl,
-	"template/max.tmpl":      templateMaxTmpl,
-	"template/min.tmpl":      templateMinTmpl,
-	"template/notnil.tmpl":   templateNotnilTmpl,
+	"template/dive.tmpl": templateDiveTmpl,
+	"template/gt.tmpl": templateGtTmpl,
+	"template/gte.tmpl": templateGteTmpl,
+	"template/hex.tmpl": templateHexTmpl,
+	"template/len.tmpl": templateLenTmpl,
+	"template/lt.tmpl": templateLtTmpl,
+	"template/lte.tmpl": templateLteTmpl,
+	"template/main.tmpl": templateMainTmpl,
+	"template/max.tmpl": templateMaxTmpl,
+	"template/min.tmpl": templateMinTmpl,
+	"template/notnil.tmpl": templateNotnilTmpl,
 	"template/required.tmpl": templateRequiredTmpl,
-	"template/uuid.tmpl":     templateUuidTmpl,
+	"template/uuid.tmpl": templateUuidTmpl,
 }
 
 // AssetDir returns the file names below a certain
@@ -490,24 +490,23 @@ type bintree struct {
 	Func     func() (*asset, error)
 	Children map[string]*bintree
 }
-
 var _bintree = &bintree{nil, map[string]*bintree{
-	"template": {nil, map[string]*bintree{
-		"bcp47.tmpl":    {templateBcp47Tmpl, map[string]*bintree{}},
-		"contains.tmpl": {templateContainsTmpl, map[string]*bintree{}},
-		"dive.tmpl":     {templateDiveTmpl, map[string]*bintree{}},
-		"gt.tmpl":       {templateGtTmpl, map[string]*bintree{}},
-		"gte.tmpl":      {templateGteTmpl, map[string]*bintree{}},
-		"hex.tmpl":      {templateHexTmpl, map[string]*bintree{}},
-		"len.tmpl":      {templateLenTmpl, map[string]*bintree{}},
-		"lt.tmpl":       {templateLtTmpl, map[string]*bintree{}},
-		"lte.tmpl":      {templateLteTmpl, map[string]*bintree{}},
-		"main.tmpl":     {templateMainTmpl, map[string]*bintree{}},
-		"max.tmpl":      {templateMaxTmpl, map[string]*bintree{}},
-		"min.tmpl":      {templateMinTmpl, map[string]*bintree{}},
-		"notnil.tmpl":   {templateNotnilTmpl, map[string]*bintree{}},
-		"required.tmpl": {templateRequiredTmpl, map[string]*bintree{}},
-		"uuid.tmpl":     {templateUuidTmpl, map[string]*bintree{}},
+	"template": &bintree{nil, map[string]*bintree{
+		"bcp47.tmpl": &bintree{templateBcp47Tmpl, map[string]*bintree{}},
+		"contains.tmpl": &bintree{templateContainsTmpl, map[string]*bintree{}},
+		"dive.tmpl": &bintree{templateDiveTmpl, map[string]*bintree{}},
+		"gt.tmpl": &bintree{templateGtTmpl, map[string]*bintree{}},
+		"gte.tmpl": &bintree{templateGteTmpl, map[string]*bintree{}},
+		"hex.tmpl": &bintree{templateHexTmpl, map[string]*bintree{}},
+		"len.tmpl": &bintree{templateLenTmpl, map[string]*bintree{}},
+		"lt.tmpl": &bintree{templateLtTmpl, map[string]*bintree{}},
+		"lte.tmpl": &bintree{templateLteTmpl, map[string]*bintree{}},
+		"main.tmpl": &bintree{templateMainTmpl, map[string]*bintree{}},
+		"max.tmpl": &bintree{templateMaxTmpl, map[string]*bintree{}},
+		"min.tmpl": &bintree{templateMinTmpl, map[string]*bintree{}},
+		"notnil.tmpl": &bintree{templateNotnilTmpl, map[string]*bintree{}},
+		"required.tmpl": &bintree{templateRequiredTmpl, map[string]*bintree{}},
+		"uuid.tmpl": &bintree{templateUuidTmpl, map[string]*bintree{}},
 	}},
 }}
 
@@ -557,3 +556,4 @@ func _filePath(dir, name string) string {
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
+

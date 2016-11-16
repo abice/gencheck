@@ -103,6 +103,8 @@ func isStruct(field *ast.Field) (ret bool) {
 	switch fType.(type) {
 	case *ast.StructType:
 		ret = true
+	case *ast.SelectorExpr:
+		ret = true
 	}
 	return
 }
@@ -118,7 +120,14 @@ func isStructPtr(field *ast.Field) (ret bool) {
 	ret = false
 	fType := field.Type
 	if star, ok := fType.(*ast.StarExpr); ok {
-		fType = getIdentType(star.X.(*ast.Ident))
+		switch star.X.(type) {
+		case *ast.Ident:
+			fType = getIdentType(star.X.(*ast.Ident))
+		case *ast.SelectorExpr:
+			ret = true
+			// fType = getIdentType(star.X.(*ast.SelectorExpr).Sel)
+			// fmt.Printf("Got a selector, inner type is: %#v\n", fType)
+		}
 	}
 
 	switch fType.(type) {
@@ -130,8 +139,9 @@ func isStructPtr(field *ast.Field) (ret bool) {
 
 func getIdentType(ident *ast.Ident) ast.Expr {
 	if ident.Obj != nil {
-		if spec, ok := ident.Obj.Decl.(*ast.TypeSpec); ok {
-			return spec.Type
+		switch ident.Obj.Decl.(type) {
+		case *ast.TypeSpec:
+			return ident.Obj.Decl.(*ast.TypeSpec).Type
 		}
 	}
 	return ident

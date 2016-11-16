@@ -41,7 +41,7 @@ func (s *ValidateTestSuite) TestCanValidate_Happy() {
 
 // TestCanValidate_ValidationError
 func (s *ValidateTestSuite) TestCanValidate_ValidationError() {
-	uut := &CanValidate{Valid: false}
+	uut := CanValidate{Valid: false}
 	err := Validate(uut)
 	s.Require().NotNil(err)
 

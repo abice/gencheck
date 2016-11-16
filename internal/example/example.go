@@ -9,6 +9,11 @@ type Example struct {
 	MapOfInterfaces map[string]interface{} `valid:"notnil"`
 }
 
+// IFace is a sample interface for testing.
+type IFace interface {
+	SomeMethod() error
+}
+
 // Inner is another example struct for testing
 type Inner struct {
 	EqCSFieldString  string `valid:"required"`

@@ -2,7 +2,7 @@
 {{define "dive"}}
 {{ if or (isStruct .) (isStructPtr .) -}}
 {{ if isPtr . }}if s.{{.FieldName}} != nil { {{- end -}}
-if err := gencheck.Validate({{ if not (isPtr .) }}&{{end}}s.{{.FieldName}}); err != nil {
+if err := gencheck.Validate(s.{{.FieldName}}); err != nil {
   {{ addError . "err" }}
 }
 {{ if isPtr . }}}{{end -}}
