@@ -1,0 +1,24 @@
+
+{{define "contains"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{ if isPtr . }}if s.{{.FieldName}} != nil{ {{ end -}}
+if !strings.Contains({{if (isPtr . )}}*{{end}}s.{{.FieldName}}, "{{.Param}}"){
+  {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
+}
+{{ if isPtr .}} }
+{{ end -}}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+found{{.FieldName}} := false
+for _, single{{.FieldName}} := range s.{{.FieldName}} {
+  if "{{.Param}}" == {{if eq .FieldType "[]*string"}}*{{end}}single{{.FieldName}}{
+    found{{.FieldName}} = true
+    break
+  }
+}
+if !found{{.FieldName}} {
+  {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
+}
+{{ else }}
+{{ generationError (printf "contains is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{- end -}}
+{{- end -}}

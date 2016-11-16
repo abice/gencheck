@@ -1,9 +1,9 @@
 {{define "notnil"}}
-  {{ if isNullable . }}
+  {{ if isNullable . -}}
   if s.{{.FieldName}} == nil {
     {{ addError . "errors.New(\"is Nil\")" }}
   }
   {{ else }}
   {{ generationError (printf "notnil is not valid on non nullable field '%s %s'" .FieldName .FieldType) }}
   {{ end }}
-{{end -}}
+{{- end -}}

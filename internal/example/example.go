@@ -85,6 +85,8 @@ type Test struct {
 	URI               string     `valid:"uri"`
 	Base64            string     `valid:"base64"`
 	Contains          string     `valid:"contains=purpose"`
+	ContainsPtr       *string    `valid:"contains=purpose"`
+	ContainsArray     []string   `valid:"contains=nonsense"`
 	ContainsAny       string     `valid:"containsany=!@#$"`
 	Excludes          string     `valid:"excludes=text"`
 	ExcludesAll       string     `valid:"excludesall=!@#$"`

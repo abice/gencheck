@@ -22,15 +22,14 @@ func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
   {{ end }}
   {{/* Iterate through the rule map to create the rules */}}
   {{range $index, $field := .rules -}}
-    {{ $name := $field.Name}}
+    {{ $name := $field.Name -}}
     {{ $rules := $field.Rules -}}
     {{ if gt (len $rules) 0 -}}
     // BEGIN {{ $name }} Validations
     {{- range $rIndex, $rule := $rules }}
       // {{ $rule.Name -}}
       {{- CallTemplate $rule $rule }}
-    {{- end}}
-    // END {{ $name }} Validations
+    {{- end -}}// END {{ $name }} Validations
 
     {{ end }}
   {{- end}}

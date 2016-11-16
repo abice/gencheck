@@ -74,10 +74,14 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "GteTime", "gte", fmt.Errorf("is before now")),
 		gencheck.NewFieldError("Test", "GteTimeVal", "gte", fmt.Errorf("is before %s", time.Now().UTC().Add(1*time.Second).Truncate(time.Second).Format("2006-01-02 15:04:05"))),
 		gencheck.NewFieldError("Test", "GteTimePtr", "gte", fmt.Errorf("is before now")),
+		gencheck.NewFieldError("Test", "Contains", "contains", fmt.Errorf("Contains did not contain purpose")),
+		gencheck.NewFieldError("Test", "ContainsPtr", "contains", fmt.Errorf("ContainsPtr did not contain purpose")),
+		gencheck.NewFieldError("Test", "ContainsArray", "contains", fmt.Errorf("ContainsArray did not contain nonsense")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
 		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
 	}
 	testTime := time.Now().UTC()
+	notPurpose := "notPurpose"
 	underTest := Test{
 		RequiredString: "Here I am", // Put in required string to prevent fast failure
 		MaxString:      "1234",
@@ -91,6 +95,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		LteNumber:      5.56000001,
 		LteMultiple:    []string{"", "", ""},
 		GteTimePtr:     &testTime,
+		ContainsPtr:    &notPurpose,
 	}
 
 	err := underTest.Validate()
@@ -130,6 +135,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		GtNumber:         5.5600001,
 		GtMultiple:       []string{"", "", ""},
 		GtString:         "1234",
+		Contains:         "purpose Of this test",
+		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
 	}
 
 	err := underTest.Validate()
@@ -161,6 +168,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		GtMultiple:       []string{"", "", ""},
 		GtString:         "1234",
 		MinIntPtr:        &i,
+		Contains:         "purpose Of this test",
+		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
 	}
 
 	err := underTest.Validate()
@@ -220,6 +229,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		GtMultiple:       []string{"", "", ""},
 		GtString:         "1234",
 		MinIntPtr:        &i,
+		Contains:         "purpose Of this test",
+		ContainsArray:    []string{"test", "last", "purpose", "nonsense"},
 	}
 
 	err := underTest.Validate()

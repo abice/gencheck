@@ -1,27 +1,27 @@
 {{define "required"}}
-  {{ if isNullable . }}
+  {{ if isNullable . -}}
   if s.{{.FieldName}} == nil {
     {{ addError . "errors.New(\"is required\")" }}
   }
-  {{ else if eq .FieldType "string" }}
+  {{ else if eq .FieldType "string" -}}
   if s.{{.FieldName}} == "" {
     {{ addError . "errors.New(\"is required\")" }}
   }
-  {{ else if eq .FieldType "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64" "byte" "rune"}}
+  {{ else if eq .FieldType "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64" "byte" "rune" -}}
   {{ generationError "Required on integer values is not supported."}}
-  {{ else if eq .FieldType "float" "float32" "float64" "complex64" "complex128" }}
-  {{ generationError "Required on numerical values is not supported."}}
+  {{ else if eq .FieldType "float" "float32" "float64" "complex64" "complex128" -}}
+  {{ generationError "Required on numerical values is not supported." -}}
   {{ else if eq .FieldType "bool" }}
-  {{ generationError "Required on boolean values is not supported."}}
-  {{ else if isStruct . }}
+  {{ generationError "Required on boolean values is not supported." -}}
+  {{ else if isStruct . -}}
   var zero{{.FieldName}} {{.FieldType}}
   if s.{{.FieldName}} == zero{{.FieldName}} {
     {{ addError . "errors.New(\"is required\")" }}
   }
-  {{ else }}
+  {{ else -}}
   var zero{{.FieldName}} {{.FieldType}}
   if s.{{.FieldName}} == zero{{.FieldName}} {
     {{ addError . "errors.New(\"is required\")" }}
   }
   {{ end }}
-{{end -}}
+{{- end -}}
