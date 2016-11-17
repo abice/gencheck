@@ -1,5 +1,9 @@
-# gencheck [![CircleCI](https://circleci.com/gh/abice/gencheck.svg?style=svg&circle-token=db146e1d9c8d935d7bd05ac879f818801c432ea4)](https://circleci.com/gh/abice/gencheck) [![Coverage Status](https://coveralls.io/repos/github/abice/gencheck/badge.svg)](https://coveralls.io/github/abice/gencheck)[![Go Report Card](https://goreportcard.com/badge/github.com/abice/gencheck)](https://goreportcard.com/report/github.com/abice/gencheck)
-Validation generator for go.
+# gencheck
+[![CircleCI](https://circleci.com/gh/abice/gencheck.svg?style=svg&circle-token=db146e1d9c8d935d7bd05ac879f818801c432ea4)](https://circleci.com/gh/abice/gencheck)
+[![Coverage Status](https://coveralls.io/repos/github/abice/gencheck/badge.svg)](https://coveralls.io/github/abice/gencheck)
+[![Go Report Card](https://goreportcard.com/badge/github.com/abice/gencheck)](https://goreportcard.com/report/github.com/abice/gencheck)
+
+### Validation generation for go.
 
 ## How it works
 gencheck was built using the idea of [zencoder/gokay](https://github.com/zencoder/gokay), but uses templates to create validations for a struct.
@@ -24,11 +28,9 @@ func (s MyStruct) Validate() error {
 
 	// BEGIN MyField Validations
 	// required
-
 	if s.MyField == "" {
 		vErrors = append(vErrors, gencheck.NewFieldError("MyStruct", "MyField", "required", errors.New("is required")))
 	}
-
 	// END MyField Validations
 
 	if len(vErrors) > 0 {
@@ -36,35 +38,6 @@ func (s MyStruct) Validate() error {
 	}
 	return nil
 }
-```
-
-## Useless Benchmarks
-
-I know benchmarks are always skewed to show what the creators want you to see, but here's a quick benchmark of the cost of using validation to check
-
-```
-BenchmarkReflectionInt-8      	20000000	       104 ns/op
-BenchmarkEmptyInt-8           	2000000000	         0.29 ns/op
-BenchmarkReflectionStruct-8   	 5000000	       262 ns/op
-BenchmarkEmptyStruct-8        	50000000	        28.3 ns/op
-BenchmarkReflectionString-8   	10000000	       159 ns/op
-BenchmarkEmptyString-8        	200000000	         9.49 ns/op
-
-```
-Benchmarks using fail fast flag
-```
-BenchmarkValidString-8            	300000000	         5.02 ns/op
-BenchmarkFailing1TestString-8     	10000000	       158 ns/op
-BenchmarkFailing2TestString-8     	10000000	       159 ns/op
-BenchmarkFailingAllTestString-8   	10000000	       164 ns/op
-```
-
-Benchmarks without fail fast flag and preallocated capacity for errors
-```
-BenchmarkValidString-8            	20000000	        68.7 ns/op
-BenchmarkFailing1TestString-8     	10000000	       189 ns/op
-BenchmarkFailing2TestString-8     	 5000000	       272 ns/op
-BenchmarkFailingAllTestString-8   	 3000000	       418 ns/op
 ```
 
 ## Installing
@@ -78,8 +51,8 @@ Normally the above command will build and install the binary, but just to be sur
 `go install github.com/abice/gencheck/gencheck`
 
 ## Running
-### Usage
-```	sh
+### Command line
+```sh
 gencheck -f=file.go -t="SomeTemplate.tmpl" --template="SomeOtherTemplate.tmpl" -d="some/dir" --template-dir="some/dir/that/has/templates"
 ```
 
@@ -117,16 +90,7 @@ Validation tags are comma separated, with any validation parameter specified aft
 In the above example, the `hex` and `notnil` Validations are parameterless, whereas len requires 1 parameter.
 
 ### Built-in Validations
-Name | Params | Allowed Field Types | Description
----- | ------------------- | ------ | -----------
-hex  | N/A | `(*)string` | Checks if a string field is a valid hexadecimal format number (0x prefix optional)
-notnil | N/A | pointers, interfaces, chans, maps, slices | Checks and fails if a pointer is nil
-len | 1 | `(*)string, int, slices, maps, chans(?)` | Checks if a string's length matches the tag's parameter
-uuid | N/A | `(*)string` | Checks and fails if a string is not a valid UUID
-required | N/A | any non-numeric / non-boolean field | Checks to see that the field is not equal to the zero value of its type.  Integers and booleans are not supported in case `0` or `false` are allowed values.
-min | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a minimum.  Strings revert to `len(string)`
-max | 1 | `(*)string, numbers, slices, maps, chans` | Verifies a maximum.  Strings revert to `len(string)`
-ff  | N/A | N/A | Fail Fast allows you to specify that if any validation within this field is invalid see [Fail Fast](#Fail Fast Flag) for more information
+See [Validations](validations.md)
 
 ### Time comparisons
 Since the addition of `gt(e)` and `lt(e)`, there are now comparisons for `time.Time` values.  If no arguments are specified to those, then it calculates whether the
@@ -183,6 +147,36 @@ NOTES:
 
 [More Examples](internal/example/)
 
+
+## Useless Benchmarks
+
+I know benchmarks are always skewed to show what the creators want you to see, but here's a quick benchmark of the cost of using validation to check
+
+```
+BenchmarkReflectionInt-8      	20000000	       104 ns/op
+BenchmarkEmptyInt-8           	2000000000	         0.29 ns/op
+BenchmarkReflectionStruct-8   	 5000000	       262 ns/op
+BenchmarkEmptyStruct-8        	50000000	        28.3 ns/op
+BenchmarkReflectionString-8   	10000000	       159 ns/op
+BenchmarkEmptyString-8        	200000000	         9.49 ns/op
+
+```
+Benchmarks using fail fast flag
+```
+BenchmarkValidString-8            	300000000	         5.02 ns/op
+BenchmarkFailing1TestString-8     	10000000	       158 ns/op
+BenchmarkFailing2TestString-8     	10000000	       159 ns/op
+BenchmarkFailingAllTestString-8   	10000000	       164 ns/op
+```
+
+Benchmarks without fail fast flag and preallocated capacity for errors
+```
+BenchmarkValidString-8            	20000000	        68.7 ns/op
+BenchmarkFailing1TestString-8     	10000000	       189 ns/op
+BenchmarkFailing2TestString-8     	 5000000	       272 ns/op
+BenchmarkFailingAllTestString-8   	 3000000	       418 ns/op
+```
+
 ## Development
 
 ### Dependencies
@@ -199,6 +193,9 @@ Tested on go 1.7.3.
 - [x] Update Required tag to error out on numerical or boolean fields
 - [ ] Support for sub-validations? `Struct fields: generated code will call static Validate method on any field that implements Validateable interface`  Maybe use a deep check
 - [x] Readme info for what information is available within the templates.
+- [ ] Contains for other slice types.
+- [ ] Contains for maps.
+- [ ] Add support for build tags for generated file.
 
 ### CI
 

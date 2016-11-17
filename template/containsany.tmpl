@@ -1,0 +1,13 @@
+
+{{define "containsany"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{ if isPtr . }}if s.{{.FieldName}} != nil{ {{ end -}}
+if !strings.ContainsAny({{if (isPtr . )}}*{{end}}s.{{.FieldName}}, "{{.Param}}"){
+  {{ addError . (printf "errors.New(\"%s did not contain any of %s\")" .FieldName .Param) }}
+}
+{{ if isPtr .}} }
+{{ end -}}
+{{ else }}
+{{ generationError (printf "containsany is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{- end -}}
+{{- end -}}
