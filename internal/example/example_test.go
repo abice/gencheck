@@ -82,6 +82,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "InnerDive", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
 		gencheck.NewFieldError("Test", "InnerDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
+		gencheck.NewFieldError("Test", "MapContains", "contains", fmt.Errorf("MapContains did not contain key")),
 	}
 	testTime := time.Now().UTC()
 	notPurpose := "notPurpose"
@@ -145,6 +146,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		ContainsAny:      "This is a test string!",
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
+		MapContains:      map[string]interface{}{"key": "x"},
 	}
 
 	err := underTest.Validate()
@@ -181,6 +183,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		ContainsAny:      "This is a test string!",
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
+		MapContains:      map[string]interface{}{"key": "x"},
 	}
 
 	err := underTest.Validate()
@@ -245,6 +248,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		ContainsAny:      "This is a test string!",
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
+		MapContains:      map[string]interface{}{"key": "x"},
 	}
 
 	err := underTest.Validate()

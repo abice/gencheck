@@ -33,5 +33,9 @@ func TestAssets(t *testing.T) {
 	assert.Panics(t, func() { MustAsset("x") })
 
 	RestoreAssets(os.TempDir(), "x")
-	RestoreAssets(os.TempDir(), "template")
+	tmpDir := os.TempDir()
+	err = RestoreAssets(tmpDir, "template")
+	if err != nil {
+		t.Logf("Error restoring assets: %s", err)
+	}
 }

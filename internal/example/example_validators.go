@@ -59,7 +59,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 37)
+	vErrors := make(gencheck.ValidationErrors, 0, 38)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -342,6 +342,15 @@ func (s Test) Validate() error {
 			vErrors = append(vErrors, gencheck.NewFieldError("Test", "InnerDivePtr", "dive", err))
 		}
 	} // END InnerDivePtr Validations
+
+	// BEGIN MapContains Validations
+	// contains
+
+	if _, foundMapContains := s.MapContains["key"]; !foundMapContains {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MapContains", "contains", errors.New("MapContains did not contain key")))
+	}
+
+	// END MapContains Validations
 
 	if len(vErrors) > 0 {
 		return vErrors

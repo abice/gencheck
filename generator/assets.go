@@ -98,12 +98,12 @@ func templateBcp47Tmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/bcp47.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/bcp47.tmpl", size: 748, mode: os.FileMode(420), modTime: time.Unix(1479267467, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
 
-var _templateContainsTmpl = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\xb4\x92\xcf\x6e\x9c\x40\x0c\x87\xef\x3c\xc5\x2f\x23\xa1\x40\x94\xf0\x00\x95\x38\x55\xed\x31\xca\xa1\xb7\x24\xaa\xa6\x1d\x0f\xb2\xca\x0e\xdb\x19\xb6\x55\x65\xf9\xdd\xab\x81\x85\xfd\xc7\x35\x37\x6b\xb0\x3f\xdb\x9f\x29\x44\x1c\x79\x0e\x04\xf3\x73\x08\xa3\xe5\x90\x8c\x6a\x21\x02\xf6\xa0\xdf\x68\xbe\x32\xf5\xee\xdb\xbf\x3d\xc1\xa4\x31\x72\xe8\x0c\xcc\xc3\x12\x3d\xad\xa9\x9c\x5e\xc6\x88\x06\xaa\xec\x91\x1a\x91\xb9\xf0\xd9\xee\x48\x15\x77\x2d\x02\xf7\x02\x11\x50\x70\x53\x19\x7b\xdc\xcd\x98\xd4\x7c\x3e\x76\xae\x44\xd8\xa3\x5a\x58\xb5\xea\x83\x08\x05\xa7\x7a\x4d\x7c\x84\x11\x69\x5e\x6c\xb4\x3b\x55\x53\x4b\x81\xcc\xb6\xce\x7d\x89\x71\xc8\xb5\xd5\x3e\x72\x18\x3d\x0c\xe5\x87\xd4\x3c\xd3\xdf\xea\xcd\x94\x09\x8e\x1d\xc2\x30\xe2\xb8\x2d\xca\xf4\x66\x6a\x83\x13\x1c\x33\xb6\x86\x6a\x71\xb5\x9d\x2a\xa6\x97\x65\x87\x1c\xf6\x89\x36\x54\xbd\xbe\xaf\xb2\x5e\xdf\x2f\x74\xf9\xe1\x10\xdc\x95\x9e\x4f\x2d\xbc\xed\x13\x15\x7e\x88\xf8\xfe\x88\xc4\xa1\xeb\xe9\x36\x29\xda\xd0\xd1\xad\xdd\xbc\x3d\xfb\x0b\x23\x68\x5b\x4c\x32\x6f\xe6\x5a\x86\x39\x73\xbb\xd1\x2d\x23\x81\xad\x59\x5b\x8c\xf1\x40\xd3\xe7\x1f\x91\xec\xaf\x02\xc8\x9e\xf2\x39\xb7\xd2\x3f\xf4\x32\x93\xfc\xf9\x0e\x1d\x05\x8a\x76\xe4\x21\xcc\x7d\xd6\x2e\xcb\x5f\x0d\x4e\x13\xfd\x8f\xed\xd9\x61\x08\xf0\x19\x8b\xfb\x32\xa1\x4c\xf7\x97\x6d\x56\x61\xf5\x4c\x7f\x3a\xbb\xf8\x29\xfe\x1f\x00\x00\xff\xff\x79\xdf\x94\x7e\x3b\x03\x00\x00")
+var _templateContainsTmpl = []byte("\x1f\x8b\x08\x00\x00\x09\x6e\x88\x00\xff\xc4\x94\xdf\x6b\xdb\x3e\x14\xc5\xdf\xfd\x57\x9c\x8a\x6f\x68\x52\x52\xc3\x77\x1b\x65\x64\xf8\x69\x6c\x30\x46\x4b\x1f\xf6\x96\x86\xa2\x55\x57\x46\xc4\x91\x53\x49\xee\x08\x42\xff\xfb\x90\x65\x3b\xbf\x0c\xa3\x0f\xeb\x5e\x2a\xa1\x1e\x1d\xdd\xf3\xb9\x37\xce\xbc\x17\x24\x95\x26\xb0\xa7\x5a\x3b\xae\xb4\x65\x21\x64\xde\x43\x49\xd0\x33\xf2\xaf\x8a\x2a\xf1\x63\xb7\x25\x30\xeb\x8c\xd2\x25\x03\xbb\xea\x77\xd7\x83\x54\xd9\x7b\x67\x90\x23\x04\x25\x61\x73\xef\xd3\xc5\x3b\xbe\xa1\x10\x70\x51\x40\xab\xca\xc3\x7b\x90\x16\xed\x35\x25\x71\x91\x6c\x6c\xfe\xb9\x7b\x79\xea\xbd\x92\x98\xf6\x5e\xb3\x10\xae\xbc\x27\x2d\x42\x38\x75\x9c\x83\x79\x9f\xdf\x73\xc3\x37\x21\xb0\x99\xcf\x10\xbd\xb9\x10\x5f\x8c\xa9\xe3\xdd\xe9\xd6\x28\xed\x24\x18\xc5\x03\x9b\xdf\xd1\xaf\xe9\x03\x9b\x58\x08\x25\xa0\x6b\x87\x2e\x2d\x26\xf6\x81\xcd\x18\xf6\xe6\x48\xb6\x33\x84\x90\x9d\xa4\x0b\x01\xed\x49\x9f\x21\x6e\x2b\x4b\x23\xa8\x96\xab\x01\xd6\x72\x75\x84\x4b\xd6\x8d\x16\x27\x78\x16\x05\x24\xaf\x2c\x65\xb2\x36\x78\x9c\xc3\x2a\x5d\x56\x74\x2e\x32\x5c\x97\x74\x4e\x37\xa6\x57\xf2\x88\x08\x8a\x02\x2d\xcc\xb3\xba\xfa\x62\x0e\xd8\x8e\xbc\x16\x2d\x81\xb1\x5a\x0b\x38\xd3\x50\xfb\xef\x9f\x86\xf8\x3a\x03\x22\xa7\xd8\xce\x31\xf9\x5f\xed\x4c\x0f\x7f\xaa\xec\x2d\xdf\x22\x9f\x75\x5d\xf9\x6f\x4d\xbb\x36\xef\xa2\x40\x49\xee\x96\x6f\xbf\x77\x07\xf9\xc1\xc8\xd2\x33\x06\xe1\x30\xdb\x69\x32\x1f\xe7\xa3\xd9\x17\xc5\x19\xfc\xe5\x21\xf5\xd5\xa7\xb7\x87\x70\x30\x80\xfb\x34\x4a\x3b\xd6\xfe\xfd\x98\x96\xff\x6f\xd2\xfa\xfe\x5d\x5a\x6f\x3e\x30\xb0\x26\xa9\x9a\x4e\xd6\xf4\xba\xa6\x17\x36\x49\xd9\x02\x53\xb2\x2d\x2b\xfe\x36\xe3\xf3\xdf\xb4\xeb\x0b\x49\x3c\x4b\xd2\x64\xb8\x53\xb5\x4e\x11\x87\x80\x4f\x5c\xc7\x8b\x8d\x25\x70\xe8\x5a\x43\x69\x47\x25\x19\xbc\xf0\xaa\x21\xd4\x1a\x7c\x7f\xb6\xa6\x1d\x09\x6c\xf8\x16\x97\x13\x8b\x89\xbd\x3c\x4e\x3e\x0c\x72\x9b\xbe\x1b\xdf\x57\xf6\x6b\xdf\xae\x7f\xd1\xad\x34\xb2\x7f\x42\xd6\x7d\x0e\xa1\x6c\xeb\xfe\xc2\x2b\x25\x22\x29\x19\x6d\x5f\x83\xe6\x0d\x1f\xbc\x3e\xf8\x2a\xee\xf7\xbf\x03\x00\x00\xff\xff\x84\x11\x75\x85\x5f\x06\x00\x00")
 
 func templateContainsTmplBytes() ([]byte, error) {
 	return bindataRead(
@@ -118,7 +118,7 @@ func templateContainsTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/contains.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/contains.tmpl", size: 1631, mode: os.FileMode(420), modTime: time.Unix(1479675313, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -138,7 +138,7 @@ func templateContainsanyTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/containsany.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/containsany.tmpl", size: 462, mode: os.FileMode(420), modTime: time.Unix(1479357027, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -158,7 +158,7 @@ func templateDiveTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/dive.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/dive.tmpl", size: 413, mode: os.FileMode(420), modTime: time.Unix(1479312423, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -178,7 +178,7 @@ func templateGtTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/gt.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/gt.tmpl", size: 792, mode: os.FileMode(420), modTime: time.Unix(1479266813, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -198,7 +198,7 @@ func templateGteTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/gte.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/gte.tmpl", size: 795, mode: os.FileMode(420), modTime: time.Unix(1479267328, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -218,7 +218,7 @@ func templateHexTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/hex.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/hex.tmpl", size: 606, mode: os.FileMode(420), modTime: time.Unix(1479265963, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -238,7 +238,7 @@ func templateLenTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/len.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/len.tmpl", size: 939, mode: os.FileMode(420), modTime: time.Unix(1479266098, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -258,7 +258,7 @@ func templateLtTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/lt.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/lt.tmpl", size: 793, mode: os.FileMode(420), modTime: time.Unix(1479266563, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -278,7 +278,7 @@ func templateLteTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/lte.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/lte.tmpl", size: 792, mode: os.FileMode(420), modTime: time.Unix(1479266736, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -298,7 +298,7 @@ func templateMainTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/main.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/main.tmpl", size: 1336, mode: os.FileMode(420), modTime: time.Unix(1479357589, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -318,7 +318,7 @@ func templateMaxTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/max.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/max.tmpl", size: 1286, mode: os.FileMode(420), modTime: time.Unix(1479266338, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -338,7 +338,7 @@ func templateMinTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/min.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/min.tmpl", size: 1348, mode: os.FileMode(420), modTime: time.Unix(1479266280, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -358,7 +358,7 @@ func templateNotnilTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/notnil.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/notnil.tmpl", size: 270, mode: os.FileMode(420), modTime: time.Unix(1479265731, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -378,7 +378,7 @@ func templateRequiredTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/required.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/required.tmpl", size: 1067, mode: os.FileMode(420), modTime: time.Unix(1479265807, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -398,7 +398,7 @@ func templateUuidTmpl() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "template/uuid.tmpl", size: 0, mode: os.FileMode(0), modTime: time.Unix(0, 0)}
+	info := bindataFileInfo{name: "template/uuid.tmpl", size: 611, mode: os.FileMode(420), modTime: time.Unix(1479267432, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }

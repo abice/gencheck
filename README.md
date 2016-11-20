@@ -5,6 +5,9 @@
 
 ### Validation generation for go.
 
+### Built-in validations
+See [Validations](validations.md)
+
 ## How it works
 gencheck was built using the idea of [zencoder/gokay](https://github.com/zencoder/gokay), but uses templates to create validations for a struct.
 
@@ -63,14 +66,8 @@ Add a `//go:generate` tag to the top of your file that you want to generate for,
 //go:generate gencheck -f=this_file.go
 ```
 
-### Examples
-Generate validation methods for types in a single file
-```sh
-gencheck -f file.go
-```
-
 ## Adding Validations
-- Add validations to `valid` tag in struct def:
+Add validations to `valid` tag in struct def:
 
 ```go
 type ExampleStruct struct {
@@ -80,7 +77,6 @@ type ExampleStruct struct {
 }
 ```
 
-- Run gencheck
 
 ### Tag syntax
 Validation tags are comma separated, with any validation parameter specified after an equal sign.
@@ -89,8 +85,6 @@ Validation tags are comma separated, with any validation parameter specified aft
 
 In the above example, the `hex` and `notnil` Validations are parameterless, whereas len requires 1 parameter.
 
-### Built-in Validations
-See [Validations](validations.md)
 
 ### Time comparisons
 Since the addition of `gt(e)` and `lt(e)`, there are now comparisons for `time.Time` values.  If no arguments are specified to those, then it calculates whether the
@@ -118,13 +112,13 @@ gencheck allows developers to write and attach their own Validation templates to
 
 1. Write a template that creates a validation for a given field making sure to define the template as the validation tag you want to use:
 
-    ```go
-		{{define "mycheck"}}
-		if err := gencheck.IsUUID({{.Param}}, {{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
-		  {{ AddError . "err" }}
-		}
-		{{end -}}
-    ```
+	```gotemplate
+	{{define "mycheck" -}}
+	if err := gencheck.IsUUID({{.Param}}, {{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
+	  {{ AddError . "err" }}
+	}
+	{{end -}}
+  ```
 
 1. Import that template when running gencheck
 1. Write tests for your struct's constraints
@@ -136,14 +130,16 @@ NOTES:
 - In your template, the . pipeline is an instance of the [`generator.Validation`](generator/types.go#L27) struct.
 - The template functions from [Sprig](https://github.com/Masterminds/sprig) have been included.
 - There are some custom functions provided for you to help in determining the ast field type
-  - isPtr
-  - addError
-  - isNullable
-  - isMap
-  - isArray
-  - generationError
-  - isStruct
-  - isStructPtr
+ - isPtr
+ - addError
+ - isNullable
+ - isMap
+ - isArray
+ - isStruct
+ - isStructPtr
+ - isStructPtr
+ - generationError
+   - Allows you to fail code generation with a specific error message
 
 [More Examples](internal/example/)
 

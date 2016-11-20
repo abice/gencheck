@@ -52,6 +52,8 @@ func NewGenerator() *Generator {
 	funcs["generationError"] = GenerationError
 	funcs["isStruct"] = tmplIsStruct
 	funcs["isStructPtr"] = tmplIsStructPtr
+	funcs["getMapKeyType"] = g.tmplGetMapKeyType
+	funcs["isParamInt"] = tmplIsParamInt
 
 	g.t.Funcs(funcs)
 
@@ -143,13 +145,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 				F:    field,
 				Name: field.Names[0].Name,
 			}
-			typeBuff := bytes.NewBuffer([]byte{})
-			pErr := printer.Fprint(typeBuff, g.fileSet, f.F.Type)
-			if pErr != nil {
-				fmt.Printf("Error getting Type: %s\n", pErr)
-			} else {
-				f.Type = typeBuff.String()
-			}
+			g.getTypeString(&f)
 
 			if field.Tag != nil {
 				if strings.Contains(field.Tag.Value, validateTag) {
@@ -250,6 +246,20 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 		err = fmt.Errorf("generate: error formatting code %s\n\n%s\n", err, string(vBuff.Bytes()))
 	}
 	return formatted, err
+}
+
+func (g *Generator) getTypeString(f *Field) {
+	tString := g.getStringForExpr(f.F.Type)
+	f.Type = tString
+}
+
+func (g *Generator) getStringForExpr(f ast.Expr) string {
+	typeBuff := bytes.NewBuffer([]byte{})
+	pErr := printer.Fprint(typeBuff, g.fileSet, f)
+	if pErr != nil {
+		fmt.Printf("Error getting Type: %s\n", pErr)
+	}
+	return typeBuff.String()
 }
 
 // AddTemplateFiles will be used during generation when the command line accepts

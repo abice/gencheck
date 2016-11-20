@@ -56,6 +56,11 @@ func (s AlwaysValid) valid() error {
 }
 
 // Example
+type MapContains struct {
+	MapOfInterfaces map[string]interface{} `valid:"contains=myKey"`
+}
+
+// Example
 type Example struct {
 	MapOfInterfaces map[string]interface{} `valid:"notnil"`
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"go/ast"
+	"strconv"
 )
 
 const (
@@ -145,4 +146,34 @@ func getIdentType(ident *ast.Ident) ast.Expr {
 		}
 	}
 	return ident
+}
+
+// tmplIsStructPtr is the template helper method to determine if a field is a *Struct
+func (g *Generator) tmplGetMapKeyType(f Validation) (ret string, err error) {
+	expr := g.getMapKeyType(f.F)
+	if expr != nil {
+		ret = g.getStringForExpr(expr)
+	}
+	return
+}
+
+func (g *Generator) getMapKeyType(field *ast.Field) ast.Expr {
+	switch field.Type.(type) {
+	case *ast.MapType:
+		mt := field.Type.(*ast.MapType)
+
+		switch mt.Key.(type) {
+		case *ast.Ident:
+			return getIdentType(mt.Key.(*ast.Ident))
+		}
+	}
+	return nil
+}
+
+func tmplIsParamInt(param string) bool {
+	_, err := strconv.Atoi(param)
+	if err != nil {
+		return false
+	}
+	return true
 }

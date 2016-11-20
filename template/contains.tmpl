@@ -18,6 +18,22 @@ for _, single{{.FieldName}} := range s.{{.FieldName}} {
 if !found{{.FieldName}} {
   {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
 }
+{{ else if (isMap .) -}}
+{{$keyType := getMapKeyType . -}}
+{{ if eq $keyType "string" }}
+if _, found{{.FieldName}} := s.{{.FieldName}}["{{.Param}}"]; !found{{.FieldName}} {
+  {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
+}
+{{else if eq $keyType "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64"}}
+{{if not (isParamInt .Param)}}
+{{ generationError (printf "cannot use a non integer value on an integer keyed map '%s %s'" .FieldName .FieldType) }}
+{{end}}
+if _, found{{.FieldName}} := s.{{.FieldName}}[{{.Param}}]; !found{{.FieldName}} {
+  {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
+}
+{{ else }}
+{{ generationError (printf "contains is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
 {{ else }}
 {{ generationError (printf "contains is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{- end -}}
