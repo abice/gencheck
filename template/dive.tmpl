@@ -5,7 +5,7 @@
 if err := gencheck.Validate(s.{{.FieldName}}); err != nil {
   {{ addError . "err" }}
 }
-{{ if isPtr . }}}{{end -}}
+{{- if isPtr . }}}{{end }}
 {{ else }}
 {{ generationError (printf "Dive is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{- end -}}

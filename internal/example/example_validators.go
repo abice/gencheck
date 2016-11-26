@@ -374,15 +374,14 @@ func (s Test) Validate() error {
 		if err := gencheck.Validate(s.InnerDivePtr); err != nil {
 			vErrors = append(vErrors, gencheck.NewFieldError("Test", "InnerDivePtr", "dive", err))
 		}
-	} // END InnerDivePtr Validations
+	}
+	// END InnerDivePtr Validations
 
 	// BEGIN MapContains Validations
 	// contains
-
 	if _, foundMapContains := s.MapContains["key"]; !foundMapContains {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MapContains", "contains", errors.New("MapContains did not contain key")))
 	}
-
 	// END MapContains Validations
 
 	if len(vErrors) > 0 {
