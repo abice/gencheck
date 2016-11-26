@@ -60,7 +60,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 41)
+	vErrors := make(gencheck.ValidationErrors, 0, 42)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -272,6 +272,13 @@ func (s Test) Validate() error {
 		}
 	}
 	// END GteTimePtr Validations
+
+	// BEGIN HexadecimalString Validations
+	// hexadecimal
+	if err := gencheck.IsHex(&s.HexadecimalString); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "HexadecimalString", "hexadecimal", err))
+	}
+	// END HexadecimalString Validations
 
 	// BEGIN Contains Validations
 	// contains
