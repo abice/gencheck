@@ -1,0 +1,57 @@
+{{define "cidr"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
+_, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+if {{.FieldName}}err != nil {
+  {{ addError . (printf "%serr" .FieldName) }}
+}
+{{if (isPtr . )}} } {{end -}}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  _, _, err := net.ParseCIDR({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}})
+  if err != nil {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ generationError (printf "cidr is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{- end -}}
+
+{{define "cidrv4"}}
+{{ if eq .FieldType "string" "*string" -}}
+ip, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+if {{.FieldName}}err != nil || ip.To4() == nil {
+  {{ addError . (printf "%serr" .FieldName) }}
+}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  ip, _, err := net.ParseCIDR({{if eq .FieldType "[]*string"}}*{{end}}single{{.FieldName}})
+  if err != nil || ip.To4() == nil {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ generationError (printf "cidrv4 is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{- end -}}
+
+{{define "cidrv6"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
+ip, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+if {{.FieldName}}err != nil || ip.To4() != nil {
+  {{ addError . (printf "%serr" .FieldName) }}
+}
+{{if (isPtr . )}} } {{end}}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  ip, _, err := net.ParseCIDR({{if eq .FieldType "[]*string"}}*{{end}}single{{.FieldName}})
+  if err != nil || ip.To4() != nil {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ generationError (printf "cidrv6 is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{- end -}}

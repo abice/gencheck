@@ -6,6 +6,7 @@ package example
 import (
 	"errors"
 	"fmt"
+	"net"
 	"strings"
 	"time"
 
@@ -59,7 +60,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 38)
+	vErrors := make(gencheck.ValidationErrors, 0, 41)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -315,6 +316,31 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "UUID", "uuid", err))
 	}
 	// END UUID Validations
+
+	// BEGIN CIDR Validations
+	// cidr
+	_, _, CIDRerr := net.ParseCIDR(s.CIDR)
+	if CIDRerr != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "CIDR", "cidr", CIDRerr))
+	}
+	// END CIDR Validations
+
+	// BEGIN CIDRv4 Validations
+	// cidrv4
+	ip, _, CIDRv4err := net.ParseCIDR(s.CIDRv4)
+	if CIDRv4err != nil || ip.To4() == nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "CIDRv4", "cidrv4", CIDRv4err))
+	}
+	// END CIDRv4 Validations
+
+	// BEGIN CIDRv6 Validations
+	// cidrv6
+	ip, _, CIDRv6err := net.ParseCIDR(s.CIDRv6)
+	if CIDRv6err != nil || ip.To4() != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "CIDRv6", "cidrv6", CIDRv6err))
+	}
+
+	// END CIDRv6 Validations
 
 	// BEGIN MinIntPtr Validations
 	// required

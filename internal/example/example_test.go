@@ -79,6 +79,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "ContainsArray", "contains", fmt.Errorf("ContainsArray did not contain nonsense")),
 		gencheck.NewFieldError("Test", "ContainsAny", "containsany", fmt.Errorf("ContainsAny did not contain any of !@#$")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
+		gencheck.NewFieldError("Test", "CIDR", "cidr", fmt.Errorf("invalid CIDR address")),
+		gencheck.NewFieldError("Test", "CIDRv4", "cidrv4", fmt.Errorf("invalid CIDR address")),
+		gencheck.NewFieldError("Test", "CIDRv6", "cidrv6", fmt.Errorf("invalid CIDR address")),
 		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "InnerDive", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
 		gencheck.NewFieldError("Test", "InnerDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
@@ -147,6 +150,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 		MapContains:      map[string]interface{}{"key": "x"},
+		CIDR:             "0.0.0.0/24",
+		CIDRv4:           "0.0.0.0/24",
+		CIDRv6:           "2620:0:2d0:200::7/32",
 	}
 
 	err := underTest.Validate()
@@ -184,6 +190,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 		MapContains:      map[string]interface{}{"key": "x"},
+		CIDR:             "0.0.0.0/24",
+		CIDRv4:           "0.0.0.0/24",
+		CIDRv6:           "2620:0:2d0:200::7/32",
 	}
 
 	err := underTest.Validate()
@@ -249,6 +258,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		InnerDive:        Inner{EqCSFieldString: "test"},
 		InnerDivePtr:     &Inner{EqCSFieldString: "something"},
 		MapContains:      map[string]interface{}{"key": "x"},
+		CIDR:             "0.0.0.0/24",
+		CIDRv4:           "0.0.0.0/24",
+		CIDRv6:           "2620:0:2d0:200::7/32",
 	}
 
 	err := underTest.Validate()
