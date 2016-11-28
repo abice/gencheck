@@ -1,0 +1,24 @@
+{{define "eq" -}}
+{{/* Use the built in len function for the types that support it. */}}
+{{if eq .FieldType "string" "*string" -}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} != "{{.Param}}" {
+  {{ addError . (printf "errors.New(\"%s did not equal %s\")" .FieldName .Param) }}
+}
+{{else if or ( isMap . ) ( isArray . ) -}}
+  if len(s.{{.FieldName}}) != {{.Param}} {
+    {{ addError . (printf "errors.New(\"Length of %s did not equal %s\")" .FieldName .Param) }}
+  }
+{{ else if eq (trimPrefix "*" .FieldType) "int" "int8" "int16" "int32" "int64" "uint" "uint8" "uint16" "uint32" "uint64" "byte" "rune" -}}
+{{ template "eq_BuiltIn" . }}
+{{ else if eq (trimPrefix "*" .FieldType) "float" "float32" "float64" "complex64" "complex128" -}}
+{{ template "eq_BuiltIn" . }}
+{{ else }}
+{{ generationError (printf "%s is not valid on field '%s %s'" .Name .FieldName .FieldType) }}
+{{- end -}}
+{{- end -}}
+
+{{ define "eq_BuiltIn" -}}
+if {{if isPtr .}}s.{{.FieldName}} != nil && *{{end}}s.{{.FieldName}} != {{.Param}} {
+  {{ addError . (printf "errors.New(\"%s did not equal %s\")" .FieldName .Param) }}
+}
+{{- end -}}

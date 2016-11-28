@@ -60,7 +60,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 45)
+	vErrors := make(gencheck.ValidationErrors, 0, 51)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -138,6 +138,48 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MaxMultiple", "max", errors.New("length failed check for max=7")))
 	}
 	// END MaxMultiple Validations
+
+	// BEGIN EqString Validations
+	// eq
+	if s.EqString != "3" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "EqString", "eq", errors.New("EqString did not equal 3")))
+	}
+	// END EqString Validations
+
+	// BEGIN EqNumber Validations
+	// eq
+	if s.EqNumber != 2.33 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "EqNumber", "eq", errors.New("EqNumber did not equal 2.33")))
+	}
+	// END EqNumber Validations
+
+	// BEGIN EqMultiple Validations
+	// eq
+	if len(s.EqMultiple) != 7 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "EqMultiple", "eq", errors.New("Length of EqMultiple did not equal 7")))
+	}
+	// END EqMultiple Validations
+
+	// BEGIN NeString Validations
+	// ne
+	if s.NeString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "NeString", "ne", errors.New("NeString equaled ")))
+	}
+	// END NeString Validations
+
+	// BEGIN NeNumber Validations
+	// ne
+	if s.NeNumber == 0.00 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "NeNumber", "ne", errors.New("NeNumber equaled 0.00")))
+	}
+	// END NeNumber Validations
+
+	// BEGIN NeMultiple Validations
+	// ne
+	if len(s.NeMultiple) == 0 {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "NeMultiple", "ne", errors.New("Length of NeMultiple equaled 0")))
+	}
+	// END NeMultiple Validations
 
 	// BEGIN LtString Validations
 	// lt

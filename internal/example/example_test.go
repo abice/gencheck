@@ -58,6 +58,12 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "MaxString", "max", fmt.Errorf("length failed check for max=3")),
 		gencheck.NewFieldError("Test", "MaxNumber", "max", fmt.Errorf("failed check for max=1113.00")),
 		gencheck.NewFieldError("Test", "MaxMultiple", "max", fmt.Errorf("length failed check for max=7")),
+		gencheck.NewFieldError("Test", "EqString", "eq", fmt.Errorf("EqString did not equal 3")),
+		gencheck.NewFieldError("Test", "EqNumber", "eq", fmt.Errorf("EqNumber did not equal 2.33")),
+		gencheck.NewFieldError("Test", "EqMultiple", "eq", fmt.Errorf("Length of EqMultiple did not equal 7")),
+		gencheck.NewFieldError("Test", "NeString", "ne", fmt.Errorf("NeString equaled ")),
+		gencheck.NewFieldError("Test", "NeNumber", "ne", fmt.Errorf("NeNumber equaled 0")),
+		gencheck.NewFieldError("Test", "NeMultiple", "ne", fmt.Errorf("Length of NeMultiple equaled")),
 		gencheck.NewFieldError("Test", "LtString", "lt", fmt.Errorf("length failed check for lt=3")),
 		gencheck.NewFieldError("Test", "LtNumber", "lt", fmt.Errorf("failed check for lt=5.56")),
 		gencheck.NewFieldError("Test", "LtMultiple", "lt", fmt.Errorf("length failed check for lt=2")),
@@ -132,6 +138,12 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
 		LenString:         "a",
+		EqMultiple:        []string{"", "", "", "", "", "", ""},
+		EqNumber:          2.33,
+		EqString:          "3",
+		NeMultiple:        []string{"", "", "", "", "", "", ""},
+		NeNumber:          2.33,
+		NeString:          "3",
 		RequiredMultiple:  []string{},
 		RequiredString:    "b",
 		MinString:         "1234567",
@@ -206,6 +218,12 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		CIDR:              "0.0.0.0/24",
 		CIDRv4:            "0.0.0.0/24",
 		CIDRv6:            "2620:0:2d0:200::7/32",
+		EqMultiple:        []string{"", "", "", "", "", "", ""},
+		EqNumber:          2.33,
+		EqString:          "3",
+		NeMultiple:        []string{"", "", "", "", "", "", ""},
+		NeNumber:          2.33,
+		NeString:          "3",
 	}
 
 	err := underTest.Validate()
@@ -278,6 +296,12 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		CIDR:              "0.0.0.0/24",
 		CIDRv4:            "0.0.0.0/24",
 		CIDRv6:            "2620:0:2d0:200::7/32",
+		EqMultiple:        []string{"", "", "", "", "", "", ""},
+		EqNumber:          2.33,
+		EqString:          "3",
+		NeMultiple:        []string{"", "", "", "", "", "", ""},
+		NeNumber:          2.33,
+		NeString:          "3",
 	}
 
 	err := underTest.Validate()
