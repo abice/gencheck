@@ -60,7 +60,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 42)
+	vErrors := make(gencheck.ValidationErrors, 0, 45)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -323,6 +323,27 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "UUID", "uuid", err))
 	}
 	// END UUID Validations
+
+	// BEGIN UUID3 Validations
+	// uuid3
+	if err := gencheck.IsUUIDv3(&s.UUID3); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "UUID3", "uuid3", err))
+	}
+	// END UUID3 Validations
+
+	// BEGIN UUID4 Validations
+	// uuid4
+	if err := gencheck.IsUUIDv4(&s.UUID4); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "UUID4", "uuid4", err))
+	}
+	// END UUID4 Validations
+
+	// BEGIN UUID5 Validations
+	// uuid5
+	if err := gencheck.IsUUIDv5(&s.UUID5); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "UUID5", "uuid5", err))
+	}
+	// END UUID5 Validations
 
 	// BEGIN CIDR Validations
 	// cidr

@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/abice/gencheck"
+	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -80,6 +81,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "ContainsArray", "contains", fmt.Errorf("ContainsArray did not contain nonsense")),
 		gencheck.NewFieldError("Test", "ContainsAny", "containsany", fmt.Errorf("ContainsAny did not contain any of !@#$")),
 		gencheck.NewFieldError("Test", "UUID", "uuid", fmt.Errorf("'' is not a UUID")),
+		gencheck.NewFieldError("Test", "UUID3", "uuid3", fmt.Errorf("'' is not a UUIDv3")),
+		gencheck.NewFieldError("Test", "UUID4", "uuid4", fmt.Errorf("'' is not a UUIDv4")),
+		gencheck.NewFieldError("Test", "UUID5", "uuid5", fmt.Errorf("'' is not a UUIDv5")),
 		gencheck.NewFieldError("Test", "CIDR", "cidr", fmt.Errorf("invalid CIDR address")),
 		gencheck.NewFieldError("Test", "CIDRv4", "cidrv4", fmt.Errorf("invalid CIDR address")),
 		gencheck.NewFieldError("Test", "CIDRv6", "cidrv6", fmt.Errorf("invalid CIDR address")),
@@ -134,6 +138,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
+		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
+		UUID4:             uuid.NewV4().String(),
+		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
 		MinIntPtr:         &i,
 		GteString:         "1234",
 		GteNumber:         5.5600001,
@@ -175,6 +182,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
+		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
+		UUID4:             uuid.NewV4().String(),
+		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
 		GteString:         "1234",
 		GteNumber:         5.5600001,
 		GteMultiple:       []string{"", ""},
@@ -244,6 +254,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
+		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
+		UUID4:             uuid.NewV4().String(),
+		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
 		GteString:         "1234",
 		GteNumber:         5.5600001,
 		GteMultiple:       []string{"", ""},
