@@ -8,6 +8,10 @@ endif
 all: generate fmt build test cover install
 install-deps:
 	glide install
+
+benchmarks: all gen-test
+	go test -v -run=XXX -bench=BenchmarkCompare $$(glide nv)
+
 build: generate
 	if [ ! -d bin ]; then mkdir bin; fi
 	go build -v -o bin/gencheck ./gencheck

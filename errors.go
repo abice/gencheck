@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	errMsgFormat = `validation: field validation failed for '%s.%s' on rule '%s'`
+	errMsgFormat = `validation: field validation failed for '%s.%s': %s`
+	errTagFormat = `validation: field validation failed for '%s.%s': tag='%s'`
 )
 
 // Error returns a string of the validation errors
@@ -40,34 +41,33 @@ type FieldError interface {
 
 // fieldError provide error information for a specific field validation.
 type fieldError struct {
-	tag        string
-	field      string
-	structName string
-	msg        string
+	Ftag        string `json:"tag"`
+	Ffield      string `json:"field"`
+	FstructName string `json:"structName"`
+	Fmsg        string `json:"msg,omitempty"`
 }
 
 func (fe fieldError) Error() string {
-	msg := fe.msg
-	if msg == "" {
-		msg = fe.tag
+	if fe.Fmsg == "" {
+		return fmt.Sprintf(errTagFormat, fe.FstructName, fe.Ffield, fe.Ftag)
 	}
-	return fmt.Sprintf(errMsgFormat, fe.structName, fe.field, msg)
+	return fmt.Sprintf(errMsgFormat, fe.FstructName, fe.Ffield, fe.Fmsg)
 }
 
 func (fe fieldError) Tag() string {
-	return fe.tag
+	return fe.Ftag
 }
 
 func (fe fieldError) Field() string {
-	return fe.field
+	return fe.Ffield
 }
 
 func (fe fieldError) Struct() string {
-	return fe.structName
+	return fe.FstructName
 }
 
 func (fe fieldError) Message() string {
-	return fe.msg
+	return fe.Fmsg
 }
 
 // NewFieldError returns a newly created immutable FieldError
@@ -79,9 +79,9 @@ func NewFieldError(st, field, tag string, err error) FieldError {
 		msg = err.Error()
 	}
 	return &fieldError{
-		structName: st,
-		field:      field,
-		tag:        tag,
-		msg:        msg,
+		FstructName: st,
+		Ffield:      field,
+		Ftag:        tag,
+		Fmsg:        msg,
 	}
 }

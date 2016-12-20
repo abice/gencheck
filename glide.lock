@@ -1,5 +1,5 @@
-hash: df92500434541fa30a95345a14d8e24664192a22feec3db61c64c5e4b572c35a
-updated: 2016-11-04T06:02:25.747970151-07:00
+hash: 6cb65405e8a3d5edc04c62f4f1c46f35afd340b58964d9b07619d46a2b8ac0a7
+updated: 2016-12-20T08:23:56.426690306-07:00
 imports:
 - name: github.com/aokoli/goutils
   version: 9c37978a95bd5c709a15883b6242714ea6709e64
@@ -10,7 +10,7 @@ imports:
   subpackages:
   - color
 - name: github.com/Masterminds/sprig
-  version: 8f797f5b23118d8fe846c4296b0ad55044201b14
+  version: 1e60e4ce482a1e2c7b9c9be667535ef152e04300
 - name: github.com/mattn/go-colorable
   version: 6c903ff4aa50920ca86087a280590b36b3152b9c
 - name: github.com/mattn/go-isatty
@@ -44,6 +44,8 @@ imports:
   subpackages:
   - go/ast/astutil
   - imports
+- name: gopkg.in/go-playground/validator.v9
+  version: 49fccadad19338f93f46a5abdafc44cd731cf7a7
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9

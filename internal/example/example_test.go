@@ -94,8 +94,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "CIDRv4", "cidrv4", fmt.Errorf("invalid CIDR address")),
 		gencheck.NewFieldError("Test", "CIDRv6", "cidrv6", fmt.Errorf("invalid CIDR address")),
 		gencheck.NewFieldError("Test", "MinIntPtr", "required", fmt.Errorf("is required")),
-		gencheck.NewFieldError("Test", "InnerDive", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
-		gencheck.NewFieldError("Test", "InnerDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString' on rule 'is required'")),
+		gencheck.NewFieldError("Test", "InnerDive", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
+		gencheck.NewFieldError("Test", "InnerDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "MapContains", "contains", fmt.Errorf("MapContains did not contain key")),
 	}
 	testTime := time.Now().UTC()

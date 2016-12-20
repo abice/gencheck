@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-var hexMatcher = regexp.MustCompile("^(0x)?[0-9a-f]+$")
+var hexMatcher = regexp.MustCompile("^[0-9a-fA-F]+$")
 
 // IsHex validates that the given string is a hex value
 func IsHex(s *string) error {
@@ -14,7 +14,7 @@ func IsHex(s *string) error {
 		return nil
 	}
 
-	matches := hexMatcher.MatchString(strings.ToLower(*s))
+	matches := hexMatcher.MatchString(strings.TrimPrefix(*s, "0x"))
 	if !matches {
 		return fmt.Errorf("'%s' is not a hexadecimal string", *s)
 	}
