@@ -13,6 +13,7 @@ type Validation struct {
 	FieldType  string
 	StructName string
 	FailFast   bool
+	Prealloc   bool
 }
 
 // Field is used for storing field information.  It holds a reference to the

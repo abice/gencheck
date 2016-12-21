@@ -17,7 +17,7 @@ import (
 func (s {{if .ptrMethod }}*{{end}}{{.name}}) Validate () (error) {
   {{/* Only make the errors map if we're going to use it. */}}
   {{- if gt (len .rules) 0 -}}
-  {{if .globalFailFast}}
+  {{if (or .globalFailFast (not .prealloc))}}
   var vErrors gencheck.ValidationErrors
   {{else}}
   vErrors := make(gencheck.ValidationErrors, 0, {{len .rules}})

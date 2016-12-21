@@ -151,7 +151,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
 		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
-		UUID4:             uuid.NewV4().String(),
+		UUID4:             strings.ToUpper(uuid.NewV4().String()),
 		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
 		MinIntPtr:         &i,
 		GteString:         "1234",

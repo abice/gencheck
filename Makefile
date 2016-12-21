@@ -5,12 +5,16 @@ ifdef CIRCLE_ARTIFACTS
 	SERVICE=circle-ci
 endif
 
+.PHONY: all
 all: generate fmt build test cover install
+
+.PHONY: install-deps
 install-deps:
 	glide install
 
-benchmarks: all gen-test
-	go test -v -run=XXX -bench=BenchmarkCompare $$(glide nv)
+.PHONY: benchmarks
+benchmarks: generate fmt reinstall
+	./benchmark.sh
 
 build: generate
 	if [ ! -d bin ]; then mkdir bin; fi

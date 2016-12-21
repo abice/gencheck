@@ -18,6 +18,7 @@ type rootT struct {
 	CustomTemplates []string `cli:"t,template" usage:"custom template files"`
 	TemplateDirs    []string `cli:"d,template-dir" usage:"custom template folders"`
 	FailFast        bool     `cli:"failfast" usage:"Tell the generator to fail all structs fast"`
+	NoPrealloc      bool     `cli:"noprealloc" usage:"Tell the generator to not preallocate a buffer for errors and let the array grow as needed."`
 }
 
 func main() {
@@ -34,6 +35,10 @@ func main() {
 
 			if argv.FailFast {
 				g.WithFailFast()
+			}
+
+			if argv.NoPrealloc {
+				g.WithoutPrealloc()
 			}
 
 			if len(argv.CustomTemplates) > 0 {

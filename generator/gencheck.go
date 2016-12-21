@@ -28,6 +28,7 @@ type Generator struct {
 	fileSet               *token.FileSet
 	generatePointerMethod bool
 	failFast              bool
+	noPrealloc            bool
 }
 
 // NewGenerator is a constructor method for creating a new Generator with default
@@ -39,6 +40,7 @@ func NewGenerator() *Generator {
 		fileSet:               token.NewFileSet(),
 		generatePointerMethod: false,
 		failFast:              false,
+		noPrealloc:            false,
 	}
 
 	funcs := sprig.TxtFuncMap()
@@ -75,6 +77,12 @@ func (g *Generator) WithPointerMethod() *Generator {
 // WithFailFast is used to change all error checks to return immediately on failure.
 func (g *Generator) WithFailFast() *Generator {
 	g.failFast = true
+	return g
+}
+
+// WithoutPrealloc is used to remove preallocation of error array.
+func (g *Generator) WithoutPrealloc() *Generator {
+	g.noPrealloc = true
 	return g
 }
 
@@ -180,6 +188,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 									F:          f.F,
 									FieldType:  f.Type,
 									StructName: name,
+									Prealloc:   g.noPrealloc,
 								}
 
 								if strings.Contains(rule, `=`) {
@@ -226,6 +235,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 			"rules":          rules,
 			"ptrMethod":      g.generatePointerMethod,
 			"globalFailFast": g.failFast,
+			"prealloc":       !g.noPrealloc,
 		}
 
 		if len(rules) > 0 {

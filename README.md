@@ -146,7 +146,14 @@ NOTES:
 
 ## Useless Benchmarks
 
-I know benchmarks are always skewed to show what the creators want you to see, but here's a quick benchmark of the cost of using validation to check
+I know benchmarks are always skewed to show what the creators want you to see, but here's a quick benchmark of the cost of using validation to check.
+
+I've also added some comparison benchmark output from the `./internal/benchmark_test.go` to compare the different options with gencheck and how it holds up to the go playground validator.
+
+ - [Playground](benchmark_playground.md)
+ - [No Options](benchmark_nooptions.md)
+ - [No Preallocated error array](benchmark_noprealloc.md)
+ - [Fail Fast](benchmark_failfast.md)
 
 ```
 BenchmarkReflectionInt-8      	20000000	       104 ns/op
