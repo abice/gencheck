@@ -128,6 +128,20 @@ func (s TestAll) Validate() error {
 	}
 	// END UUID Validations
 
+	// BEGIN MinInt Validations
+	// min
+	if s.MinInt < 12345 {
+		return append(vErrors, gencheck.NewFieldError("TestAll", "MinInt", "min", errors.New("failed check for min=12345")))
+	}
+	// END MinInt Validations
+
+	// BEGIN MaxInt Validations
+	// max
+	if s.MaxInt > 12345 {
+		return append(vErrors, gencheck.NewFieldError("TestAll", "MaxInt", "max", errors.New("failed check for max=12345")))
+	}
+	// END MaxInt Validations
+
 	// BEGIN Dive Validations
 	// required
 	if s.Dive == nil {

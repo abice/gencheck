@@ -1,6 +1,7 @@
 #!/bin/bash
 
 gencheckBench(){
+    echo "# GENCHECK $options"
     echo "# GENCHECK $options" > "$benchMD"
     echo "\`\`\`" >> "$benchMD"
     f="-f=./internal/benchmark/types.go"
@@ -13,13 +14,6 @@ gencheckBench(){
     echo "\`\`\`" >> "$benchMD"
 }
 
-benchMD=benchmark_playground.md
-
-echo "# PLAYGROUND" > "$benchMD"
-echo "\`\`\`" >> "$benchMD"
-go test -v -run=XXX -bench=BenchmarkComparePlayground -benchmem ./internal/benchmark >> "$benchMD"
-echo "\`\`\`" >> "$benchMD"
-
 benchMD=benchmark_nooptions.md
 options=
 gencheckBench
@@ -31,3 +25,11 @@ gencheckBench
 benchMD=benchmark_failfast.md
 options="--failfast"
 gencheckBench
+
+benchMD=benchmark_playground.md
+
+echo "# PLAYGROUND"
+echo "# PLAYGROUND" > "$benchMD"
+echo "\`\`\`" >> "$benchMD"
+go test -v -run=XXX -bench=BenchmarkComparePlayground -benchmem ./internal/benchmark >> "$benchMD"
+echo "\`\`\`" >> "$benchMD"

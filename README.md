@@ -111,14 +111,14 @@ There is also a `--failfast` flag on the cli that will allow you to make **all**
 gencheck allows developers to write and attach their own Validation templates to the generator.
 
 1. Write a template that creates a validation for a given field making sure to define the template as the validation tag you want to use:
-
+	
 	```gotemplate
 	{{define "mycheck" -}}
 	if err := gencheck.IsUUID({{.Param}}, {{if not (IsPtr . )}}&{{end}}s.{{.FieldName}}); err != nil {
 	  {{ AddError . "err" }}
 	}
 	{{end -}}
-  ```
+	```
 
 1. Import that template when running gencheck
 1. Write tests for your struct's constraints

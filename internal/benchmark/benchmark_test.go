@@ -145,12 +145,14 @@ var benchmarks = []struct {
 		Max:      "1231232",
 		CIDR:     "192.168.1.0/24",
 		LteTime:  time.Now().Add(-1 * time.Second),
-		GteTime:  time.Now().Add(30 * time.Second), // Make this a large number so that it's still after now when the test comes around.
+		GteTime:  time.Now().Add(60 * time.Second), // Make this a large number so that it's still after now when the test comes around.
 		Gte:      1.23451,
 		NotNil:   &dummyString,
 		Contains: "The quick brown fox jumped over the lazy dog",
 		Hex:      "1234567890AbCdEf",
 		UUID:     uuid.NewV4().String(),
+		MinInt:   12345,
+		MaxInt:   12345,
 		Dive:     &SingleString{Entry: "This is a test"},
 	}},
 	{"TestAll Fail", true, TestAll{
@@ -159,13 +161,15 @@ var benchmarks = []struct {
 		Min:      "1234",
 		Max:      "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901",
 		CIDR:     "192.168.1.0",
-		LteTime:  time.Now().Add(30 * time.Second), // Make this a large number so that it's still after now when the test comes around.
+		LteTime:  time.Now().Add(60 * time.Second), // Make this a large number so that it's still after now when the test comes around.
 		GteTime:  time.Now().Add(-1 * time.Second),
 		Gte:      1.2344,
 		NotNil:   nil,
 		Contains: "The quick brown cat jumped over the lazy dog",
 		Hex:      "1234567890AbCdEfG",
 		UUID:     strings.ToUpper(uuid.NewV4().String() + "adsf"),
+		MinInt:   12344,
+		MaxInt:   12346,
 		Dive:     &SingleString{Entry: ""},
 	}},
 }

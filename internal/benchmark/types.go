@@ -48,5 +48,7 @@ type TestAll struct {
 	Contains string        `valid:"contains=fox" validate:"contains=fox"`
 	Hex      string        `valid:"hex" validate:"hexadecimal"`
 	UUID     string        `valid:"uuid" validate:"uuid"`
+	MinInt   int64         `valid:"min=12345" validate:"min=12345"`
+	MaxInt   int64         `valid:"max=12345" validate:"max=12345"`
 	Dive     *SingleString `valid:"required,dive" validate:"dive"` // Added required flag to have the same logic as playground
 }
