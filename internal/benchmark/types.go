@@ -51,4 +51,6 @@ type TestAll struct {
 	MinInt   int64         `valid:"min=12345" validate:"min=12345"`
 	MaxInt   int64         `valid:"max=12345" validate:"max=12345"`
 	Dive     *SingleString `valid:"required,dive" validate:"dive"` // Added required flag to have the same logic as playground
+	URL      string        `valid:"url" validate:"url"`
+	URI      string        `valid:"uri" validate:"uri"`
 }

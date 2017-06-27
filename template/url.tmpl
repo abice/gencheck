@@ -1,0 +1,48 @@
+{{define "uri"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
+if {{if (isPtr . )}}*{{end}}s.{{.FieldName}} != "" {
+  _, {{.FieldName}}urierr := url.ParseRequestURI({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+  if {{.FieldName}}urierr != nil {
+    {{ addError . (printf "%surierr" .FieldName) }}
+  }
+}
+{{if (isPtr . )}} } {{end -}}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  _, err := url.ParseRequestURI({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}})
+  if err != nil {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  }
+}
+{{ else }}
+{{ generationError (printf "uri is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{- end -}}
+
+
+{{define "url"}}
+{{ if eq .FieldType "string" "*string" -}}
+{{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
+if {{if (isPtr . )}}*{{end}}s.{{.FieldName}} != "" {
+  {{.FieldName}}URL, {{.FieldName}}urlerr := url.ParseRequestURI({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+  if {{.FieldName}}urlerr != nil {
+    {{ addError . (printf "%surlerr" .FieldName) }}
+  } else if {{.FieldName}}URL.Scheme == "" {
+    {{ addError . (printf `errors.New("%s is missing a scheme")` .FieldName) }}  
+  }
+}
+{{if (isPtr . )}} } {{end -}}
+{{ else if eq .FieldType "[]string" "[]*string" -}}
+for index, single{{.FieldName}} := range s.{{.FieldName}} {
+  u, err := url.ParseRequestURI({{if eq .FieldType "[]string"}}&{{end}}single{{.FieldName}})
+  if err != nil {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - %%s", index, single%s, err)` .FieldName) }}
+  } else if u.Scheme == "" {
+    {{ addError . (printf `fmt.Errorf("%%s[%%d] - missing scheme", index, single%s)` .FieldName) }}  
+  }
+}
+{{ else }}
+{{ generationError (printf "url is not valid on field '%s %s'" .FieldName .FieldType) }}
+{{end}}
+{{- end -}}

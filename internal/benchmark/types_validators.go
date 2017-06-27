@@ -6,6 +6,7 @@ package benchmark
 import (
 	"errors"
 	"net"
+	"net/url"
 	"strings"
 	"time"
 
@@ -155,6 +156,28 @@ func (s TestAll) Validate() error {
 		}
 	}
 	// END Dive Validations
+
+	// BEGIN URL Validations
+	// url
+	if s.URL != "" {
+		URLURL, URLurlerr := url.ParseRequestURI(s.URL)
+		if URLurlerr != nil {
+			return append(vErrors, gencheck.NewFieldError("TestAll", "URL", "url", URLurlerr))
+		} else if URLURL.Scheme == "" {
+			return append(vErrors, gencheck.NewFieldError("TestAll", "URL", "url", errors.New("URL is missing a scheme")))
+		}
+	}
+	// END URL Validations
+
+	// BEGIN URI Validations
+	// uri
+	if s.URI != "" {
+		_, URIurierr := url.ParseRequestURI(s.URI)
+		if URIurierr != nil {
+			return append(vErrors, gencheck.NewFieldError("TestAll", "URI", "uri", URIurierr))
+		}
+	}
+	// END URI Validations
 
 	return nil
 }

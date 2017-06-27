@@ -7,7 +7,9 @@ import (
 	"time"
 
 	"github.com/abice/gencheck"
+	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -174,6 +176,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		CIDR:              "0.0.0.0/24",
 		CIDRv4:            "0.0.0.0/24",
 		CIDRv6:            "2620:0:2d0:200::7/32",
+		URL:               "http://test.com",
+		URI:               "scp://test.com/123",
 	}
 
 	err := underTest.Validate()
@@ -224,6 +228,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		NeMultiple:        []string{"", "", "", "", "", "", ""},
 		NeNumber:          2.33,
 		NeString:          "3",
+		URL:               "http://test.com",
+		URI:               "scp://test.com",
 	}
 
 	err := underTest.Validate()
@@ -302,6 +308,8 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		NeMultiple:        []string{"", "", "", "", "", "", ""},
 		NeNumber:          2.33,
 		NeString:          "3",
+		URL:               "http://test.com",
+		URI:               "scp://test.com",
 	}
 
 	err := underTest.Validate()
@@ -312,4 +320,59 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 	s.Require().Len(ve, 1, "Should only have 1 validation error")
 
 	s.Require().EqualValues(ve[0], gencheck.NewFieldError("Test", "LteTime", "lte", fmt.Errorf("is after now")), "Error should be lte time error")
+}
+
+// TestValidateTestStruct_Values
+func TestValidateTestStruct_Individual(t *testing.T) {
+	tests := map[string]struct {
+		uut      Test
+		field    string
+		expected gencheck.FieldError
+	}{
+		"URL": {
+			field:    "URL",
+			expected: gencheck.NewFieldError("Test", "URL", "url", errors.New("parse x: invalid URI for request")),
+			uut: Test{
+				RequiredString: "x",
+				URL:            "x",
+			},
+		},
+		"URLNoScheme": {
+			field:    "URL",
+			expected: gencheck.NewFieldError("Test", "URL", "url", errors.New("URL is missing a scheme")),
+			uut: Test{
+				RequiredString: "x",
+				URL:            "/x/123",
+			},
+		},
+		"URI": {
+			field:    "URI",
+			expected: gencheck.NewFieldError("Test", "URI", "uri", errors.New("parse x: invalid URI for request")),
+			uut: Test{
+				RequiredString: "x",
+				URI:            "x",
+			},
+		},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(tt *testing.T) {
+			err := test.uut.Validate()
+			assert.Error(tt, err, "Valid Struct should have had an error")
+
+			assert.IsType(tt, gencheck.ValidationErrors{}, err, "Error returned was not ValidationErrors type")
+
+			ve := err.(gencheck.ValidationErrors)
+			found := false
+
+			for _, e := range ve {
+				if e.Field() == test.field {
+					found = true
+					assert.EqualValues(tt, e, test.expected, "Error did not match expected")
+				}
+			}
+			assert.True(tt, found, `Did not find expected error for field '%s'`, test.field)
+		})
+	}
+
 }

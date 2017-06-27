@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"net"
+	"net/url"
 	"strings"
 	"time"
 
@@ -60,7 +61,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 51)
+	vErrors := make(gencheck.ValidationErrors, 0, 53)
 
 	// BEGIN RequiredString Validations
 	// required
@@ -321,6 +322,28 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "HexadecimalString", "hexadecimal", err))
 	}
 	// END HexadecimalString Validations
+
+	// BEGIN URL Validations
+	// url
+	if s.URL != "" {
+		URLURL, URLurlerr := url.ParseRequestURI(s.URL)
+		if URLurlerr != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "URL", "url", URLurlerr))
+		} else if URLURL.Scheme == "" {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "URL", "url", errors.New("URL is missing a scheme")))
+		}
+	}
+	// END URL Validations
+
+	// BEGIN URI Validations
+	// uri
+	if s.URI != "" {
+		_, URIurierr := url.ParseRequestURI(s.URI)
+		if URIurierr != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "URI", "uri", URIurierr))
+		}
+	}
+	// END URI Validations
 
 	// BEGIN Contains Validations
 	// contains

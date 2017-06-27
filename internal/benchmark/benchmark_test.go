@@ -153,6 +153,8 @@ var benchmarks = []struct {
 		UUID:     uuid.NewV4().String(),
 		MinInt:   12345,
 		MaxInt:   12345,
+		URL:      "http://test.com/health?whatislife=something",
+		URI:      "http://test.com/health?whatislife=something",
 		Dive:     &SingleString{Entry: "This is a test"},
 	}},
 	{"TestAll Fail", true, TestAll{
@@ -170,6 +172,8 @@ var benchmarks = []struct {
 		UUID:     strings.ToUpper(uuid.NewV4().String() + "adsf"),
 		MinInt:   12344,
 		MaxInt:   12346,
+		URL:      "/health?whatislife=something",
+		URI:      "?whatislife=something",
 		Dive:     &SingleString{Entry: ""},
 	}},
 }
