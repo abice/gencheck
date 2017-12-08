@@ -118,6 +118,25 @@ func (a byPosition) Len() int           { return len(a) }
 func (a byPosition) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
 func (a byPosition) Less(i, j int) bool { return a[i].Pos() < a[j].Pos() }
 
+func (g *Generator) expandEmbeddedFields(structs map[string]*ast.StructType, fields []*ast.Field) []*ast.Field {
+	sort.Sort(byPosition(fields))
+
+	actualFieldList := make([]*ast.Field, 0, len(fields))
+	for _, field := range fields {
+		if len(field.Names) < 1 {
+			fieldName := g.getStringForExpr(field.Type)
+			if embedded, ok := structs[fieldName]; ok {
+				expanded := g.expandEmbeddedFields(structs, embedded.Fields.List)
+				actualFieldList = append(actualFieldList, expanded...)
+			}
+		} else {
+			actualFieldList = append(actualFieldList, field)
+		}
+	}
+
+	return actualFieldList
+}
+
 // Generate does the heavy lifting for the code generation starting from the parsed AST file.
 func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 	var err error
@@ -143,15 +162,22 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 
 		var rules []Field
 
-		fieldList := st.Fields.List
-		sort.Sort(byPosition(fieldList))
+		// Only expands when we find an embedded struct
+		fieldList := g.expandEmbeddedFields(structs, st.Fields.List)
 
 		// Go through the fields in the struct and find all the validated tags
 		for _, field := range fieldList {
+			fieldName := ``
+			// Support for embedded structs that don't have a field name associated with it
+			if len(field.Names) > 0 {
+				fieldName = field.Names[0].Name
+			} else {
+				fieldName = g.getStringForExpr(field.Type)
+			}
 			// Make a field holder
 			f := Field{
 				F:    field,
-				Name: field.Names[0].Name,
+				Name: fieldName,
 			}
 			g.getTypeString(&f)
 
@@ -253,7 +279,7 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 
 	formatted, err := imports.Process(pkg, vBuff.Bytes(), nil)
 	if err != nil {
-		err = fmt.Errorf("generate: error formatting code %s\n\n%s\n", err, string(vBuff.Bytes()))
+		err = fmt.Errorf("generate: error formatting code %s\n\n%s\n", err, vBuff.String())
 	}
 	return formatted, err
 }

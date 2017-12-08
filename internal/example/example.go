@@ -24,8 +24,13 @@ type Inner struct {
 	LteCSFieldString string
 }
 
+type Embedded struct {
+	FieldString string `valid:"required"`
+}
+
 // Test is a test struct for testing.
 type Test struct {
+	Embedded
 	Inner Inner
 	// RequiredNumber    int       `valid:"required"`
 	RequiredString    string                 `valid:"required,ff"`

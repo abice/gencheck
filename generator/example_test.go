@@ -74,7 +74,12 @@ type Inner struct {
 	LteCSFieldString string
 }
 
+type Embedded struct {
+	FieldString string `valid:"required"`
+}
+
 type Test struct {
+	Embedded          `valid:"dive"`
 	Inner             Inner
 	RequiredString    string    `validate:"required"`
 	RequiredNumber    int       `validate:"required"`

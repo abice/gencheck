@@ -17,6 +17,27 @@ import (
 // Validate is an automatically generated validation method provided by
 // gencheck.
 // See https://github.com/abice/gencheck for more details.
+func (s Embedded) Validate() error {
+
+	vErrors := make(gencheck.ValidationErrors, 0, 1)
+
+	// BEGIN FieldString Validations
+	// required
+	if s.FieldString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Embedded", "FieldString", "required", errors.New("is required")))
+	}
+	// END FieldString Validations
+
+	if len(vErrors) > 0 {
+		return vErrors
+	}
+
+	return nil
+}
+
+// Validate is an automatically generated validation method provided by
+// gencheck.
+// See https://github.com/abice/gencheck for more details.
 func (s Example) Validate() error {
 
 	vErrors := make(gencheck.ValidationErrors, 0, 1)
@@ -61,7 +82,14 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 53)
+	vErrors := make(gencheck.ValidationErrors, 0, 54)
+
+	// BEGIN FieldString Validations
+	// required
+	if s.FieldString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "FieldString", "required", errors.New("is required")))
+	}
+	// END FieldString Validations
 
 	// BEGIN RequiredString Validations
 	// required

@@ -30,6 +30,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_FailFast() {
 	}
 
 	underTest := Test{
+		Embedded:    Embedded{FieldString: `1234`},
 		MaxString:   "1234",
 		MaxNumber:   1113.00001,
 		MaxMultiple: []string{"", "", "", "", "", "", "", "", ""},
@@ -50,6 +51,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_FailFast() {
 // TestValidateTestStruct_NoValues
 func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 	expected := gencheck.ValidationErrors{
+		gencheck.NewFieldError("Test", "FieldString", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "RequiredMultiple", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "LenString", "len", fmt.Errorf("length mismatch")),
 		gencheck.NewFieldError("Test", "LenNumber", "len", fmt.Errorf("length mismatch")),
@@ -137,6 +139,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 	i := int64(2000)
 	underTest := Test{
+		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
 		LenString:         "a",
@@ -189,6 +192,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 	i := int64(1233)
 	underTest := Test{
+		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
 		LenString:         "a",
@@ -269,6 +273,7 @@ func (s *ExampleTestSuite) TestValidateExample_Happy() {
 func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 	i := int64(1234)
 	underTest := Test{
+		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
 		LenString:         "a",
@@ -368,7 +373,7 @@ func TestValidateTestStruct_Individual(t *testing.T) {
 			for _, e := range ve {
 				if e.Field() == test.field {
 					found = true
-					assert.EqualValues(tt, e, test.expected, "Error did not match expected")
+					assert.EqualValues(tt, test.expected, e, "Error did not match expected")
 				}
 			}
 			assert.True(tt, found, `Did not find expected error for field '%s'`, test.field)
