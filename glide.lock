@@ -1,16 +1,16 @@
-hash: 40d2cec98391915d5d8afe55943afadef44c1c23d1b00226e48aa421b7fffd1a
-updated: 2017-12-08T15:34:43.895843119-07:00
+hash: 5e255fd4a59e76f9cec260d2ee90e53144f85ce022db504cce655ad2204af1c5
+updated: 2018-02-28T10:24:34.094469617-07:00
 imports:
 - name: github.com/aokoli/goutils
   version: 3391d3790d23d03408670993e957e8f408993c34
 - name: github.com/Bowery/prompt
-  version: 753711fea478fa77bb2c83f6ec244b814d4a8bad
+  version: 94b504f42fdd503acc3b3c79ec2b517d90e0de8a
 - name: github.com/huandu/xstrings
-  version: 37469d0c81a7910b49d64a0d308ded4823e90937
+  version: 2bf18b218c51864a87384c06996e40ff9dcff8e1
 - name: github.com/imdario/mergo
   version: 7fe0c75c13abdee74b09fcacef5ea1c6bba6a874
 - name: github.com/labstack/gommon
-  version: 57409ada9da0f2afad6664c49502f8c50fbd8476
+  version: 058e16e77bbd66cc101dfeae2971b88add6ce266
   subpackages:
   - color
 - name: github.com/Masterminds/semver
@@ -18,7 +18,7 @@ imports:
 - name: github.com/Masterminds/sprig
   version: b217b9c388de2cacde4354c536e520c52c055563
 - name: github.com/mattn/go-colorable
-  version: 6fcc0c1fd9b620311d821b106a400b35dc95c497
+  version: 7dc3415be66d7cc68bf0182f35c8d31f8d2ad8a7
 - name: github.com/mattn/go-isatty
   version: 6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c
 - name: github.com/mkideal/cli
@@ -31,34 +31,26 @@ imports:
 - name: github.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/satori/go.uuid
-  version: 879c5887cd475cd7864858769793b2ceb0d44feb
-- name: github.com/stretchr/testify
-  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
-  subpackages:
-  - assert
-  - require
-  - suite
+  version: 0ca0c2cf9e6f8d79757fdc089a34c854ad557138
 - name: golang.org/x/crypto
-  version: b080dc9a8c480b08e698fb1219160d598526310f
+  version: 3a6c3ce65c4f0844ac396b02aebda1496fd2ac9d
   subpackages:
   - pbkdf2
   - scrypt
 - name: golang.org/x/sys
-  version: 4ff8c001ce4cc464e644b922325097228fce14d8
+  version: 37707fdb30a5b38865cfb95e5aab41707daec7fd
   subpackages:
   - unix
 - name: golang.org/x/text
-  version: 88f656faf3f37f690df1a32515b479415e1a6769
+  version: 4e4a3210bb54bb31f6ab2cdca2edcc0b50c420c1
   subpackages:
   - internal/tag
   - language
 - name: golang.org/x/tools
-  version: a5ff95640e8c289d9c807a532e8110268036c0dd
+  version: 73e16cff9e0d4a802937444bebb562458548241d
   subpackages:
   - go/ast/astutil
   - imports
-- name: gopkg.in/go-playground/validator.v9
-  version: 61caf9d3038e1af346dbf5c2e16f6678e1548364
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
@@ -74,3 +66,11 @@ testImports:
   version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
   subpackages:
   - difflib
+- name: github.com/stretchr/testify
+  version: 12b6f73e6084dad08a7c6e575284b177ecafbc71
+  subpackages:
+  - assert
+  - require
+  - suite
+- name: gopkg.in/go-playground/validator.v9
+  version: 150fe5b6a4ccc9cd6ffdbf5d184b67fbea75efcc

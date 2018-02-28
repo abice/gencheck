@@ -1,14 +1,17 @@
 package: github.com/abice/gencheck
 import:
 - package: github.com/Masterminds/sprig
-  version: ^2.6.0
+  version: ^2.14.1
 - package: github.com/mkideal/cli
 - package: golang.org/x/tools
   subpackages:
   - imports
+- package: github.com/pkg/errors
+  version: v0.8.0
+- package: github.com/satori/go.uuid
+  version: 0ca0c2cf9e6f8d79757fdc089a34c854ad557138
+testImport:
 - package: github.com/stretchr/testify
   version: ^1.1.4
 - package: gopkg.in/go-playground/validator.v9
   version: ^9.3.1
-- package: github.com/pkg/errors
-  version: v0.8.0

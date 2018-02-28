@@ -199,6 +199,7 @@ Tested on go 1.7.3.
 - [ ] Contains for other slice types.
 - [ ] Contains for maps.
 - [ ] Add support for build tags for generated file.
+- [ ] Cross field validation (i.e. x.start <= x.end)
 
 ### CI
 
