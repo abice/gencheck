@@ -48,6 +48,7 @@ func NewGenerator() *Generator {
 	funcs["CallTemplate"] = g.CallTemplate
 	funcs["isPtr"] = isPtr
 	funcs["addError"] = addFieldError
+	funcs["addIndexedError"] = addIndexedFieldError
 	funcs["isNullable"] = isNullable
 	funcs["isMap"] = isMap
 	funcs["isArray"] = isArray

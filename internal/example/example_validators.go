@@ -82,7 +82,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 54)
+	vErrors := make(gencheck.ValidationErrors, 0, 58)
 
 	// BEGIN FieldString Validations
 	// required
@@ -490,6 +490,42 @@ func (s Test) Validate() error {
 		}
 	}
 	// END InnerDivePtr Validations
+
+	// BEGIN InnerDiveSlice Validations
+	// dive
+	for i, e := range s.InnerDiveSlice {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("InnerDiveSlice[%v]", i), "dive", err))
+		}
+	}
+	// END InnerDiveSlice Validations
+
+	// BEGIN InnerDiveSlicePtr Validations
+	// dive
+	for i, e := range s.InnerDiveSlicePtr {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("InnerDiveSlicePtr[%v]", i), "dive", err))
+		}
+	}
+	// END InnerDiveSlicePtr Validations
+
+	// BEGIN InnerDiveMap Validations
+	// dive
+	for i, e := range s.InnerDiveMap {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("InnerDiveMap[%v]", i), "dive", err))
+		}
+	}
+	// END InnerDiveMap Validations
+
+	// BEGIN InnerDiveMapPtr Validations
+	// dive
+	for i, e := range s.InnerDiveMapPtr {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("InnerDiveMapPtr[%v]", i), "dive", err))
+		}
+	}
+	// END InnerDiveMapPtr Validations
 
 	// BEGIN MapContains Validations
 	// contains
