@@ -1,4 +1,4 @@
-{{/* dive will call gencheck validate on a struct */ -}}
+{{/* dive will call gencheck validate on nested structs */ -}}
 {{define "dive"}}
 {{ if or (isStruct .) (isStructPtr .) -}}
 {{ if isPtr . }}if s.{{.FieldName}} != nil { {{- end -}}
@@ -6,6 +6,12 @@ if err := gencheck.Validate(s.{{.FieldName}}); err != nil {
   {{ addError . "err" }}
 }
 {{- if isPtr . }}}{{end }}
+{{else if or ( isMap . ) ( isArray . ) -}}
+  for i, e := range s.{{.FieldName}} {
+    if err := gencheck.Validate(e); err != nil {
+      {{ addIndexedError . "i" "err" }}
+    }
+  }
 {{ else }}
 {{ generationError (printf "Dive is not valid on field '%s %s'" .FieldName .FieldType) }}
 {{- end -}}

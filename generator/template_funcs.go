@@ -8,8 +8,10 @@ import (
 )
 
 const (
-	errorFormat         = `vErrors = append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
-	failFastErrorFormat = `return append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
+	errorFormat                = `vErrors = append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
+	failFastErrorFormat        = `return append(vErrors, gencheck.NewFieldError("%s","%s","%s",%s))`
+	indexedErrorFormat         = `vErrors = append(vErrors, gencheck.NewFieldError("%s",fmt.Sprintf("%s[%%v]", %s),"%s",%s))`
+	indexedFailFastErrorFormat = `return append(vErrors, gencheck.NewFieldError("%s",fmt.Sprintf("%s[%%v]", %s),"%s",%s))`
 )
 
 // addFieldError is a helper method for templates to add an error to a field.
@@ -18,6 +20,16 @@ func addFieldError(v Validation, eString string) (ret string, err error) {
 		ret = fmt.Sprintf(failFastErrorFormat, v.StructName, v.FieldName, v.Name, eString)
 	} else {
 		ret = fmt.Sprintf(errorFormat, v.StructName, v.FieldName, v.Name, eString)
+	}
+	return
+}
+
+// addIndexedFieldError is a helper method for templates to add an indexed error to a field.
+func addIndexedFieldError(v Validation, fieldIndex, eString string) (ret string, err error) {
+	if v.FailFast {
+		ret = fmt.Sprintf(indexedFailFastErrorFormat, v.StructName, v.FieldName, fieldIndex, v.Name, eString)
+	} else {
+		ret = fmt.Sprintf(indexedErrorFormat, v.StructName, v.FieldName, fieldIndex, v.Name, eString)
 	}
 	return
 }

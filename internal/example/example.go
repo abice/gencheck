@@ -136,5 +136,9 @@ type Test struct {
 	MinIntPtr         *int64                 `valid:"required,min=1234"`
 	InnerDive         Inner                  `valid:"dive"`
 	InnerDivePtr      *Inner                 `valid:"dive"`
+	InnerDiveSlice    []Inner                `valid:"dive"`
+	InnerDiveSlicePtr []*Inner               `valid:"dive"`
+	InnerDiveMap      map[string]Inner       `valid:"dive"`
+	InnerDiveMapPtr   map[string]*Inner      `valid:"dive"`
 	MapContains       map[string]interface{} `valid:"contains=key"`
 }
