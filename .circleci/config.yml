@@ -9,6 +9,7 @@ jobs:
       - run:
           name: Install Go Deps
           command: |
+            curl https://glide.sh/get | sh
             go get -v github.com/kevinburke/go-bindata/...
             go get -v golang.org/x/tools/cmd/cover
             go get -v github.com/mattn/goveralls
@@ -33,6 +34,7 @@ jobs:
       - run:
           name: Install Go Deps
           command: |
+            curl https://glide.sh/get | sh
             go get -v github.com/kevinburke/go-bindata/...
             go get -v golang.org/x/tools/cmd/cover
             go get -v github.com/mattn/goveralls
