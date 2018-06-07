@@ -82,7 +82,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 58)
+	vErrors := make(gencheck.ValidationErrors, 0, 66)
 
 	// BEGIN FieldString Validations
 	// required
@@ -527,12 +527,80 @@ func (s Test) Validate() error {
 	}
 	// END InnerDiveMapPtr Validations
 
+	// BEGIN OtherFileDive Validations
+	// dive
+	if err := gencheck.Validate(s.OtherFileDive); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "OtherFileDive", "dive", err))
+	}
+	// END OtherFileDive Validations
+
+	// BEGIN OtherFileDivePtr Validations
+	// dive
+	if s.OtherFileDivePtr != nil {
+		if err := gencheck.Validate(s.OtherFileDivePtr); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "OtherFileDivePtr", "dive", err))
+		}
+	}
+	// END OtherFileDivePtr Validations
+
+	// BEGIN OtherFileDiveSlice Validations
+	// dive
+	for i, e := range s.OtherFileDiveSlice {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("OtherFileDiveSlice[%v]", i), "dive", err))
+		}
+	}
+	// END OtherFileDiveSlice Validations
+
+	// BEGIN OtherFileDiveSlicePtr Validations
+	// dive
+	for i, e := range s.OtherFileDiveSlicePtr {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("OtherFileDiveSlicePtr[%v]", i), "dive", err))
+		}
+	}
+	// END OtherFileDiveSlicePtr Validations
+
+	// BEGIN OtherFileDiveMap Validations
+	// dive
+	for i, e := range s.OtherFileDiveMap {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("OtherFileDiveMap[%v]", i), "dive", err))
+		}
+	}
+	// END OtherFileDiveMap Validations
+
+	// BEGIN OtherFileDiveMapPtr Validations
+	// dive
+	for i, e := range s.OtherFileDiveMapPtr {
+		if err := gencheck.Validate(e); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", fmt.Sprintf("OtherFileDiveMapPtr[%v]", i), "dive", err))
+		}
+	}
+	// END OtherFileDiveMapPtr Validations
+
 	// BEGIN MapContains Validations
 	// contains
 	if _, foundMapContains := s.MapContains["key"]; !foundMapContains {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "MapContains", "contains", errors.New("MapContains did not contain key")))
 	}
 	// END MapContains Validations
+
+	// BEGIN TestString Validations
+	// dive
+	if err := gencheck.Validate(s.TestString); err != nil {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "TestString", "dive", err))
+	}
+	// END TestString Validations
+
+	// BEGIN TestStringPtr Validations
+	// dive
+	if s.TestStringPtr != nil {
+		if err := gencheck.Validate(s.TestStringPtr); err != nil {
+			vErrors = append(vErrors, gencheck.NewFieldError("Test", "TestStringPtr", "dive", err))
+		}
+	}
+	// END TestStringPtr Validations
 
 	if len(vErrors) > 0 {
 		return vErrors

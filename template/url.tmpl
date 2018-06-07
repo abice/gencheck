@@ -2,7 +2,7 @@
 {{ if eq .FieldType "string" "*string" -}}
 {{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
 if {{if (isPtr . )}}*{{end}}s.{{.FieldName}} != "" {
-  _, {{.FieldName}}urierr := url.ParseRequestURI({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+  _, {{.FieldName}}urierr := url.ParseRequestURI({{ accessor . "s." }})
   if {{.FieldName}}urierr != nil {
     {{ addError . (printf "%surierr" .FieldName) }}
   }
@@ -24,8 +24,8 @@ for index, single{{.FieldName}} := range s.{{.FieldName}} {
 {{define "url"}}
 {{ if eq .FieldType "string" "*string" -}}
 {{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
-if {{if (isPtr . )}}*{{end}}s.{{.FieldName}} != "" {
-  {{.FieldName}}URL, {{.FieldName}}urlerr := url.ParseRequestURI({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+if {{ accessor . "s." }} != "" {
+  {{.FieldName}}URL, {{.FieldName}}urlerr := url.ParseRequestURI({{ accessor . "s." }})
   if {{.FieldName}}urlerr != nil {
     {{ addError . (printf "%surlerr" .FieldName) }}
   } else if {{.FieldName}}URL.Scheme == "" {

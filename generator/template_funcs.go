@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go/ast"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -32,6 +33,15 @@ func addIndexedFieldError(v Validation, fieldIndex, eString string) (ret string,
 		ret = fmt.Sprintf(indexedErrorFormat, v.StructName, v.FieldName, fieldIndex, v.Name, eString)
 	}
 	return
+}
+
+// accessor is a helper method for templates to use to remove a lot of `if isPtr *`
+func accessor(f Validation, prefix string) (string, error) {
+	isPtr, err := isPtr(f)
+	if err != nil || !isPtr {
+		return fmt.Sprintf("%s%s", prefix, f.FieldName), nil
+	}
+	return fmt.Sprintf("*%s%s", prefix, f.FieldName), nil
 }
 
 // IsPtr is a helper method for templates to use to determine if a field is a pointer.
@@ -100,15 +110,26 @@ func GenerationError(s string) (ret interface{}, err error) {
 }
 
 // isStruct is a helper method for templates to determine if the field is a struct (not a pointer to a struct)
-func tmplIsStruct(f Validation) (ret bool, err error) {
-	ret = isStruct(f.F)
+func (g *Generator) tmplIsStruct(f Validation) (ret bool, err error) {
+	ret = g.isStruct(f.F)
 	return
 }
 
 // isStruct is a helper method for templates to determine if the field is a struct (not a pointer to a struct)
-func isStruct(field *ast.Field) (ret bool) {
+func (g *Generator) isStruct(field *ast.Field) (ret bool) {
 	ret = false
 	fType := field.Type
+	typeString := g.getStringForExpr(field.Type)
+	if strings.HasPrefix(typeString, `*`) {
+		// Quit early if it's a pointer
+		return
+	}
+	if _, knownStruct := g.knownStructs[typeString]; knownStruct {
+		// We know it's not a pointer, so if we can find it, it's a struct
+		ret = true
+		return
+	}
+
 	if _, ok := fType.(*ast.Ident); ok {
 		fType = getIdentType(fType.(*ast.Ident))
 	}
@@ -123,15 +144,26 @@ func isStruct(field *ast.Field) (ret bool) {
 }
 
 // tmplIsStructPtr is the template helper method to determine if a field is a *Struct
-func tmplIsStructPtr(f Validation) (ret bool, err error) {
-	ret = isStructPtr(f.F)
+func (g *Generator) tmplIsStructPtr(f Validation) (ret bool, err error) {
+	ret = g.isStructPtr(f.F)
 	return
 }
 
 // isStructPtr is a helper method for templates to determine if the field is a pointer to a struct
-func isStructPtr(field *ast.Field) (ret bool) {
+func (g *Generator) isStructPtr(field *ast.Field) (ret bool) {
 	ret = false
 	fType := field.Type
+	typeString := g.getStringForExpr(field.Type)
+	if !strings.HasPrefix(typeString, `*`) {
+		// Quit early if it's not a pointer at all
+		return
+	}
+	if _, knownStruct := g.knownStructs[strings.TrimPrefix(typeString, `*`)]; knownStruct {
+		// We already know it's a pointer, so if it's found, return true
+		ret = true
+		return
+	}
+
 	if star, ok := fType.(*ast.StarExpr); ok {
 		switch star.X.(type) {
 		case *ast.Ident:

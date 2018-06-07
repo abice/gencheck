@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/abice/gencheck"
+	"github.com/abice/gencheck/internal/benchmark"
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
@@ -104,7 +105,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "InnerDiveSlicePtr[0]", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "InnerDiveMap[test]", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "InnerDiveMapPtr[test]", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
+		gencheck.NewFieldError("Test", "OtherFileDive", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "MapContains", "contains", fmt.Errorf("MapContains did not contain key")),
+		gencheck.NewFieldError("Test", "TestString", "dive", fmt.Errorf(`validation: field validation failed for 'TestString.Required': is required`)),
 	}
 	testTime := time.Now().UTC()
 	notPurpose := "notPurpose"
@@ -194,6 +197,10 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		CIDRv6:            "2620:0:2d0:200::7/32",
 		URL:               "http://test.com",
 		URI:               "scp://test.com/123",
+		OtherFileDive:     OtherFile{EqCSFieldString: "test"},
+		OtherFileDivePtr:  &OtherFile{EqCSFieldString: "something"},
+		TestString:        benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
+		TestStringPtr:     &benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
 	}
 
 	err := underTest.Validate()
@@ -247,6 +254,10 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		NeString:          "3",
 		URL:               "http://test.com",
 		URI:               "scp://test.com",
+		OtherFileDive:     OtherFile{EqCSFieldString: "test"},
+		OtherFileDivePtr:  &OtherFile{EqCSFieldString: "something"},
+		TestString:        benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
+		TestStringPtr:     &benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
 	}
 
 	err := underTest.Validate()
@@ -328,6 +339,10 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		NeString:          "3",
 		URL:               "http://test.com",
 		URI:               "scp://test.com",
+		OtherFileDive:     OtherFile{EqCSFieldString: "test"},
+		OtherFileDivePtr:  &OtherFile{EqCSFieldString: "something"},
+		TestString:        benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
+		TestStringPtr:     &benchmark.TestString{Required: "x", Len: "xxxxxxxxxx", Min: "xxxxx", Max: "x"},
 	}
 
 	err := underTest.Validate()

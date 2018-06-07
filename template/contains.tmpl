@@ -2,7 +2,7 @@
 {{define "contains"}}
 {{ if eq .FieldType "string" "*string" -}}
 {{ if isPtr . }}if s.{{.FieldName}} != nil{ {{ end -}}
-if !strings.Contains({{if (isPtr . )}}*{{end}}s.{{.FieldName}}, "{{.Param}}"){
+if !strings.Contains({{ accessor . "s." }}, "{{.Param}}"){
   {{ addError . (printf "errors.New(\"%s did not contain %s\")" .FieldName .Param) }}
 }
 {{ if isPtr .}} }

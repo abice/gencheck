@@ -1,7 +1,7 @@
 {{define "cidr"}}
 {{ if eq .FieldType "string" "*string" -}}
 {{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
-_, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+_, _, {{.FieldName}}err := net.ParseCIDR({{ accessor . "s." }})
 if {{.FieldName}}err != nil {
   {{ addError . (printf "%serr" .FieldName) }}
 }
@@ -20,7 +20,7 @@ for index, single{{.FieldName}} := range s.{{.FieldName}} {
 
 {{define "cidrv4"}}
 {{ if eq .FieldType "string" "*string" -}}
-ip, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+ip, _, {{.FieldName}}err := net.ParseCIDR({{ accessor . "s." }})
 if {{.FieldName}}err != nil || ip.To4() == nil {
   {{ addError . (printf "%serr" .FieldName) }}
 }
@@ -39,7 +39,7 @@ for index, single{{.FieldName}} := range s.{{.FieldName}} {
 {{define "cidrv6"}}
 {{ if eq .FieldType "string" "*string" -}}
 {{if (isPtr . )}}if s.{{.FieldName}} != nil { {{end -}}
-ip, _, {{.FieldName}}err := net.ParseCIDR({{if (isPtr . )}}*{{end}}s.{{.FieldName}})
+ip, _, {{.FieldName}}err := net.ParseCIDR({{ accessor . "s." }})
 if {{.FieldName}}err != nil || ip.To4() != nil {
   {{ addError . (printf "%serr" .FieldName) }}
 }
