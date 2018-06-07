@@ -29,6 +29,7 @@ type Generator struct {
 	generatePointerMethod bool
 	failFast              bool
 	noPrealloc            bool
+	knownStructs          map[string]*ast.StructType
 }
 
 // NewGenerator is a constructor method for creating a new Generator with default
@@ -41,6 +42,7 @@ func NewGenerator() *Generator {
 		generatePointerMethod: false,
 		failFast:              false,
 		noPrealloc:            false,
+		knownStructs:          map[string]*ast.StructType{},
 	}
 
 	funcs := sprig.TxtFuncMap()
@@ -53,10 +55,11 @@ func NewGenerator() *Generator {
 	funcs["isMap"] = isMap
 	funcs["isArray"] = isArray
 	funcs["generationError"] = GenerationError
-	funcs["isStruct"] = tmplIsStruct
-	funcs["isStructPtr"] = tmplIsStructPtr
+	funcs["isStruct"] = g.tmplIsStruct
+	funcs["isStructPtr"] = g.tmplIsStructPtr
 	funcs["getMapKeyType"] = g.tmplGetMapKeyType
 	funcs["isParamInt"] = tmplIsParamInt
+	funcs["accessor"] = accessor
 
 	g.t.Funcs(funcs)
 
@@ -111,6 +114,19 @@ func (g *Generator) GenerateFromFile(inputFile string) ([]byte, error) {
 	}
 	return g.Generate(f)
 
+}
+
+// AddSupportFiles will add the file to the ast.FileSet for parsing, but won't generate anything for the file.
+func (g *Generator) AddSupportFiles(inputFiles ...string) error {
+	for _, inputFile := range inputFiles {
+		f, err := g.parseFile(inputFile)
+		if err != nil {
+			return err
+		}
+		// Add known structs to the context
+		g.inspect(f)
+	}
+	return nil
 }
 
 type byPosition []*ast.Field
@@ -337,9 +353,10 @@ func (g *Generator) inspect(f *ast.File) map[string]*ast.StructType {
 				if x.Obj.Kind == ast.Typ {
 					// Make sure it's a spec (Type Identifiers can be throughout the code)
 					if ts, ok := x.Obj.Decl.(*ast.TypeSpec); ok {
-						// Only stsore the struct types (we don't do anything for interfaces)
+						// Only store the struct types (we don't do anything for interfaces)
 						if sts, store := ts.Type.(*ast.StructType); store {
 							structs[x.Name] = sts
+							g.knownStructs[x.Name] = sts
 						}
 					}
 				}
