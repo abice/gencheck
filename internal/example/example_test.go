@@ -107,15 +107,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 		gencheck.NewFieldError("Test", "InnerDiveMapPtr[test]", "dive", fmt.Errorf("validation: field validation failed for 'Inner.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "OtherFileDive", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "MapContains", "contains", fmt.Errorf("MapContains did not contain key")),
-		// gencheck.NewFieldError("Test", "OtherFileDivePtr", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "OtherFileDiveSlice[0]", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "OtherFileDiveSlicePtr[0]", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "OtherFileDiveMap[test]", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "OtherFileDiveMapPtr[test]", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "TestString", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
 		gencheck.NewFieldError("Test", "TestString", "dive", fmt.Errorf(`validation: field validation failed for 'TestString.Required': is required`)),
-		// gencheck.NewFieldError("Test", "TestString", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
-		// gencheck.NewFieldError("Test", "TestString", "dive", fmt.Errorf("validation: field validation failed for 'OtherFile.EqCSFieldString': is required")),
 	}
 	testTime := time.Now().UTC()
 	notPurpose := "notPurpose"
