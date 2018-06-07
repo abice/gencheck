@@ -11,6 +11,7 @@ import (
 
 const (
 	testExample = `example_test.go`
+	testSupport = `example_support_test.go`
 )
 
 // generatorTestSuite
@@ -58,6 +59,7 @@ func (s *generatorTestSuite) TestNoFile() {
 func (s *generatorTestSuite) TestExampleFile() {
 	g := NewGenerator()
 	// Parse the file given in arguments
+	g.AddSupportFiles(testSupport)
 	imported, err := g.GenerateFromFile(testExample)
 	s.Nil(err, "Error generating formatted code")
 	if false {

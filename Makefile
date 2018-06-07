@@ -42,7 +42,7 @@ clean:
 # go-bindata will take all of the template files and create readable assets from them in the executable.
 # This way the templates are readable in atom (or another text editor with golang template language support)
 generate:
-	go-bindata -o generator/assets.go -pkg=generator template/*.tmpl
+	go-bindata -o generator/assets.go -nometadata -pkg=generator template/*.tmpl
 
 gen-test: build install
 	go generate $$(glide novendor)
