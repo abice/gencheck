@@ -82,7 +82,7 @@ func (s Inner) Validate() error {
 // See https://github.com/abice/gencheck for more details.
 func (s Test) Validate() error {
 
-	vErrors := make(gencheck.ValidationErrors, 0, 66)
+	vErrors := make(gencheck.ValidationErrors, 0, 67)
 
 	// BEGIN FieldString Validations
 	// required
@@ -90,6 +90,13 @@ func (s Test) Validate() error {
 		vErrors = append(vErrors, gencheck.NewFieldError("Test", "FieldString", "required", errors.New("is required")))
 	}
 	// END FieldString Validations
+
+	// BEGIN EmbeddedString Validations
+	// required
+	if s.EmbeddedString == "" {
+		vErrors = append(vErrors, gencheck.NewFieldError("Test", "EmbeddedString", "required", errors.New("is required")))
+	}
+	// END EmbeddedString Validations
 
 	// BEGIN RequiredString Validations
 	// required

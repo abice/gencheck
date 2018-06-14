@@ -31,10 +31,11 @@ func (s *ExampleTestSuite) TestValidateTestStruct_FailFast() {
 	}
 
 	underTest := Test{
-		Embedded:    Embedded{FieldString: `1234`},
-		MaxString:   "1234",
-		MaxNumber:   1113.00001,
-		MaxMultiple: []string{"", "", "", "", "", "", "", "", ""},
+		ExternalEmbedded: ExternalEmbedded{EmbeddedString: `abcd`},
+		Embedded:         Embedded{FieldString: `1234`},
+		MaxString:        "1234",
+		MaxNumber:        1113.00001,
+		MaxMultiple:      []string{"", "", "", "", "", "", "", "", ""},
 	}
 
 	err := underTest.Validate()
@@ -53,6 +54,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_FailFast() {
 func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 	expected := gencheck.ValidationErrors{
 		gencheck.NewFieldError("Test", "FieldString", "required", fmt.Errorf("is required")),
+		gencheck.NewFieldError("Test", "EmbeddedString", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "RequiredMultiple", "required", fmt.Errorf("is required")),
 		gencheck.NewFieldError("Test", "LenString", "len", fmt.Errorf("length mismatch")),
 		gencheck.NewFieldError("Test", "LenNumber", "len", fmt.Errorf("length mismatch")),
@@ -151,6 +153,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_NoValues() {
 func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 	i := int64(2000)
 	underTest := Test{
+		ExternalEmbedded:  ExternalEmbedded{EmbeddedString: `abcd`},
 		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
@@ -212,6 +215,7 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 	i := int64(1233)
 	underTest := Test{
+		ExternalEmbedded:  ExternalEmbedded{EmbeddedString: `abcd`},
 		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,
@@ -297,6 +301,7 @@ func (s *ExampleTestSuite) TestValidateExample_Happy() {
 func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 	i := int64(1234)
 	underTest := Test{
+		ExternalEmbedded:  ExternalEmbedded{EmbeddedString: `abcd`},
 		Embedded:          Embedded{FieldString: `1234`},
 		LenMultiple:       []string{"", "", "", "", "", "", ""},
 		LenNumber:         1113,

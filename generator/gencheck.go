@@ -142,8 +142,8 @@ func (g *Generator) expandEmbeddedFields(structs map[string]*ast.StructType, fie
 	for _, field := range fields {
 		if len(field.Names) < 1 {
 			fieldName := g.getStringForExpr(field.Type)
-			if embedded, ok := structs[fieldName]; ok {
-				expanded := g.expandEmbeddedFields(structs, embedded.Fields.List)
+			if embedded, ok := g.knownStructs[fieldName]; ok {
+				expanded := g.expandEmbeddedFields(g.knownStructs, embedded.Fields.List)
 				actualFieldList = append(actualFieldList, expanded...)
 			}
 		} else {
