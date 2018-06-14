@@ -16,6 +16,10 @@ type OtherFile struct {
 	LteCSFieldString string
 }
 
+type ExternalEmbedded struct {
+	EmbeddedString string `valid:"required"`
+}
+
 func (s OtherFile) Validate() error {
 
 	vErrors := make(gencheck.ValidationErrors, 0, 1)

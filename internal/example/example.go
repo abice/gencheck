@@ -35,6 +35,7 @@ type Embedded struct {
 // Test is a test struct for testing.
 type Test struct {
 	Embedded
+	ExternalEmbedded
 	Inner Inner
 	// RequiredNumber    int       `valid:"required"`
 	RequiredString        string                 `valid:"required,ff"`
