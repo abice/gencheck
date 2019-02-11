@@ -11,9 +11,8 @@ import (
 	"strings"
 	"text/template"
 
-	"golang.org/x/tools/imports"
-
 	"github.com/Masterminds/sprig"
+	"golang.org/x/tools/imports"
 )
 
 const (
@@ -198,77 +197,39 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 			}
 			g.getTypeString(&f)
 
-			if field.Tag != nil {
-				if strings.Contains(field.Tag.Value, validateTag) {
+			// Skip untagged fields
+			if field.Tag == nil {
+				continue
+			}
 
-					// The AST keeps the rune marker on the string, so we trim them off
-					str := strings.Trim(field.Tag.Value, "`")
-					// Separate tag types are separated by spaces, so split on that
-					vals := strings.Split(str, " ")
-					for _, val := range vals {
-						// Only parse out the valid: tag
-						if strings.HasPrefix(val, validateTag) {
-							// Strip off the valid: prefix and the quotation marks
-							ruleStr := val[len(validateTag)+1 : len(val)-1]
-							// Split on commas for multiple validations
-							fieldRules := strings.Split(ruleStr, ",")
+			// Skip fields that aren't validated
+			if !strings.Contains(field.Tag.Value, validateTag) {
+				continue
+			}
 
-							// Store the validation as the duplication check so that *if* in the future we want to support certain rules as
-							// having duplicates, we can do that easier.
-							dupecheck := make(map[string]Validation)
-							for _, rule := range fieldRules {
-								// Check for fail fast and ignore that rule
-								if rule == failFastFlag {
-									f.FailFast = true
-									continue
-								}
-								// Rules are able to have parameters,
-								// but will have an = in them if that is the case.
-
-								v := Validation{
-									Name:       rule,
-									FieldName:  f.Name,
-									F:          f.F,
-									FieldType:  f.Type,
-									StructName: name,
-									Prealloc:   g.noPrealloc,
-								}
-
-								if strings.Contains(rule, `=`) {
-									// There is a parameter, so get the rule name, and the parameter
-									temp := strings.Split(rule, `=`)
-									v.Name = temp[0]
-									v.Param = temp[1]
-								}
-
-								// Only keep the rule if it is a known template
-								if _, ok := g.knownTemplates[v.Name]; ok {
-									// Make sure it's not a duplicate rule
-									if _, isDupe := dupecheck[v.Name]; isDupe {
-										return nil, fmt.Errorf("Duplicate rules are not allowed: '%s' on field '%s'", v.Name, f.Name)
-									}
-									dupecheck[v.Name] = v
-
-									f.Rules = append(f.Rules, v)
-								} else {
-									fmt.Printf("Skipping unknown validation template: '%s'\n", v.Name)
-								}
-							}
-
-							if f.FailFast || g.failFast {
-								for index, val := range f.Rules {
-									val.FailFast = true
-									f.Rules[index] = val
-								}
-							}
-						}
-					}
-
-					// If we have any rules for the field, add it to the map
-					if len(f.Rules) > 0 {
-						rules = append(rules, f)
-					}
+			// The AST keeps the rune marker on the string, so we trim them off
+			str := strings.Trim(field.Tag.Value, "`")
+			// Separate tag types are separated by spaces, so split on that
+			vals := strings.Split(str, " ")
+			for _, val := range vals {
+				// Only parse out the valid: tag
+				if !strings.HasPrefix(val, validateTag) {
+					continue
 				}
+				// Strip off the valid: prefix and the quotation marks
+				ruleStr := val[len(validateTag)+1 : len(val)-1]
+				// Split on commas for multiple validations
+				fieldRules := strings.Split(ruleStr, ",")
+
+				parseErr := g.parseFieldRules(&f, name, fieldRules)
+				if parseErr != nil {
+					return nil, parseErr
+				}
+			}
+
+			// If we have any rules for the field, add it to the map
+			if len(f.Rules) > 0 {
+				rules = append(rules, f)
 			}
 		}
 
@@ -299,6 +260,59 @@ func (g *Generator) Generate(f *ast.File) ([]byte, error) {
 		err = fmt.Errorf("generate: error formatting code %s\n\n%s\n", err, vBuff.String())
 	}
 	return formatted, err
+}
+
+func (g *Generator) parseFieldRules(f *Field, structName string, fieldRules []string) error {
+	// Store the validation as the duplication check so that *if* in the future we want to support certain rules as
+	// having duplicates, we can do that easier.
+	dupecheck := make(map[string]Validation)
+	for _, rule := range fieldRules {
+		// Check for fail fast and ignore that rule
+		if rule == failFastFlag {
+			f.FailFast = true
+			continue
+		}
+		// Rules are able to have parameters,
+		// but will have an = in them if that is the case.
+
+		v := Validation{
+			Name:       rule,
+			FieldName:  f.Name,
+			F:          f.F,
+			FieldType:  f.Type,
+			StructName: structName,
+			Prealloc:   g.noPrealloc,
+		}
+
+		if strings.Contains(rule, `=`) {
+			// There is a parameter, so get the rule name, and the parameter
+			temp := strings.Split(rule, `=`)
+			v.Name = temp[0]
+			v.Param = temp[1]
+		}
+
+		// Only keep the rule if it is a known template
+		if _, ok := g.knownTemplates[v.Name]; ok {
+			// Make sure it's not a duplicate rule
+			if _, isDupe := dupecheck[v.Name]; isDupe {
+				return fmt.Errorf("Duplicate rules are not allowed: '%s' on field '%s'", v.Name, f.Name)
+			}
+			dupecheck[v.Name] = v
+
+			f.Rules = append(f.Rules, v)
+		} else {
+			fmt.Printf("Skipping unknown validation template: '%s'\n", v.Name)
+		}
+	}
+
+	if f.FailFast || g.failFast {
+		for index, val := range f.Rules {
+			val.FailFast = true
+			f.Rules[index] = val
+		}
+	}
+
+	return nil
 }
 
 func (g *Generator) getTypeString(f *Field) {
@@ -348,18 +362,22 @@ func (g *Generator) inspect(f *ast.File) map[string]*ast.StructType {
 	ast.Inspect(f, func(n ast.Node) bool {
 		switch x := n.(type) {
 		case *ast.Ident:
-			if x.Obj != nil {
-				// Make sure it's a Type Identifier
-				if x.Obj.Kind == ast.Typ {
-					// Make sure it's a spec (Type Identifiers can be throughout the code)
-					if ts, ok := x.Obj.Decl.(*ast.TypeSpec); ok {
-						// Only store the struct types (we don't do anything for interfaces)
-						if sts, store := ts.Type.(*ast.StructType); store {
-							structs[x.Name] = sts
-							g.knownStructs[x.Name] = sts
-						}
-					}
-				}
+			if x.Obj == nil {
+				return true
+			}
+			// Make sure it's a Type Identifier
+			if x.Obj.Kind != ast.Typ {
+				return true
+			}
+			// Make sure it's a spec (Type Identifiers can be throughout the code)
+			ts, ok := x.Obj.Decl.(*ast.TypeSpec)
+			if !ok {
+				return true
+			}
+			// Only store the struct types (we don't do anything for interfaces)
+			if sts, store := ts.Type.(*ast.StructType); store {
+				structs[x.Name] = sts
+				g.knownStructs[x.Name] = sts
 			}
 		}
 		// Return true to continue through the tree

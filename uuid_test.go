@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -41,7 +41,7 @@ func (s *UUIDTestSuite) TestIsUUID_NotUUIDTooLong() {
 	s.Require().Equal(errors.New("'AB603c9a2a-38db-4987-932a-2f57733a29fQ' is not a UUID"), IsUUID(&str))
 }
 func (s *UUIDTestSuite) TestIsUUID_v3() {
-	str := uuid.NewV3(uuid.NewV1(), "test").String()
+	str := uuid.NewMD5(uuid.New(), []byte("test")).String()
 	s.NoError(IsUUID(&str))
 	s.NoError(IsUUIDv3(&str))
 	s.Error(IsUUIDv4(&str))
@@ -49,7 +49,7 @@ func (s *UUIDTestSuite) TestIsUUID_v3() {
 }
 
 func (s *UUIDTestSuite) TestIsUUID_v4() {
-	str := uuid.NewV4().String()
+	str := uuid.New().String()
 	s.NoError(IsUUID(&str))
 	s.NoError(IsUUIDv4(&str))
 	s.Error(IsUUIDv3(&str))
@@ -57,7 +57,7 @@ func (s *UUIDTestSuite) TestIsUUID_v4() {
 }
 
 func (s *UUIDTestSuite) TestIsUUID_v5() {
-	str := uuid.NewV5(uuid.NewV1(), "test").String()
+	str := uuid.NewSHA1(uuid.NameSpaceDNS, []byte("test")).String()
 	s.NoError(IsUUID(&str))
 	s.NoError(IsUUIDv5(&str))
 	s.Error(IsUUIDv3(&str))

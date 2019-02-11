@@ -8,8 +8,8 @@ import (
 
 	"github.com/abice/gencheck"
 	"github.com/abice/gencheck/internal/benchmark"
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
@@ -170,9 +170,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_Values() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
-		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
-		UUID4:             strings.ToUpper(uuid.NewV4().String()),
-		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
+		UUID3:             uuid.NewMD5(uuid.NameSpaceX500, []byte("test")).String(),
+		UUID4:             strings.ToUpper(uuid.New().String()),
+		UUID5:             uuid.NewSHA1(uuid.NameSpaceDNS, []byte("test")).String(),
 		MinIntPtr:         &i,
 		GteString:         "1234",
 		GteNumber:         5.5600001,
@@ -226,9 +226,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_MinPtrFailure() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
-		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
-		UUID4:             uuid.NewV4().String(),
-		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
+		UUID3:             uuid.NewMD5(uuid.New(), []byte("test")).String(),
+		UUID4:             uuid.New().String(),
+		UUID5:             uuid.NewSHA1(uuid.New(), []byte("test")).String(),
 		GteString:         "1234",
 		GteNumber:         5.5600001,
 		GteMultiple:       []string{"", ""},
@@ -312,9 +312,9 @@ func (s *ExampleTestSuite) TestValidateTestStruct_LteTime() {
 		MinNumber:         1113.000001,
 		MinMultiple:       []string{"", "", "", "", "", "", "", ""},
 		UUID:              "7112EE37-3219-4A26-BA01-1D230BC9257B",
-		UUID3:             uuid.NewV3(uuid.NewV4(), "test").String(),
-		UUID4:             uuid.NewV4().String(),
-		UUID5:             uuid.NewV5(uuid.NewV4(), "test").String(),
+		UUID3:             uuid.NewMD5(uuid.New(), []byte("test")).String(),
+		UUID4:             uuid.New().String(),
+		UUID5:             uuid.NewSHA1(uuid.New(), []byte("test")).String(),
 		GteString:         "1234",
 		GteNumber:         5.5600001,
 		GteMultiple:       []string{"", ""},

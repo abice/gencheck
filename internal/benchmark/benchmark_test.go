@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/abice/gencheck"
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 	"gopkg.in/go-playground/validator.v9"
 )
@@ -115,8 +115,8 @@ var benchmarks = []struct {
 	hasError bool
 	uut      gencheck.Validateable
 }{
-	{"UUID Pass", false, TestUUID{UUID: uuid.NewV4().String()}},
-	{"UUID Fail", true, TestUUID{UUID: uuid.NewV4().String() + "notauuid"}},
+	{"UUID Pass", false, TestUUID{UUID: uuid.New().String()}},
+	{"UUID Fail", true, TestUUID{UUID: uuid.New().String() + "notauuid"}},
 	{"Hex Pass", false, TestHex{Value: hexPassingString}},
 	{"Hex Fail", true, TestHex{Value: hexFailingString}},
 	{"ContainsAny Pass", false, TestContainsAny{Any: containsAnyPassingString}},
@@ -150,7 +150,7 @@ var benchmarks = []struct {
 		NotNil:   &dummyString,
 		Contains: "The quick brown fox jumped over the lazy dog",
 		Hex:      "1234567890AbCdEf",
-		UUID:     uuid.NewV4().String(),
+		UUID:     uuid.New().String(),
 		MinInt:   12345,
 		MaxInt:   12345,
 		URL:      "http://test.com/health?whatislife=something",
@@ -169,7 +169,7 @@ var benchmarks = []struct {
 		NotNil:   nil,
 		Contains: "The quick brown cat jumped over the lazy dog",
 		Hex:      "1234567890AbCdEfG",
-		UUID:     strings.ToUpper(uuid.NewV4().String() + "adsf"),
+		UUID:     strings.ToUpper(uuid.New().String() + "adsf"),
 		MinInt:   12344,
 		MaxInt:   12346,
 		URL:      "/health?whatislife=something",
