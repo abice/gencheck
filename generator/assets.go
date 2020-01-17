@@ -579,45 +579,26 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"template/bcp47.tmpl": templateBcp47Tmpl,
-
-	"template/cidr.tmpl": templateCidrTmpl,
-
-	"template/contains.tmpl": templateContainsTmpl,
-
+	"template/bcp47.tmpl":       templateBcp47Tmpl,
+	"template/cidr.tmpl":        templateCidrTmpl,
+	"template/contains.tmpl":    templateContainsTmpl,
 	"template/containsany.tmpl": templateContainsanyTmpl,
-
-	"template/dive.tmpl": templateDiveTmpl,
-
-	"template/eq.tmpl": templateEqTmpl,
-
-	"template/gt.tmpl": templateGtTmpl,
-
-	"template/gte.tmpl": templateGteTmpl,
-
-	"template/hex.tmpl": templateHexTmpl,
-
-	"template/len.tmpl": templateLenTmpl,
-
-	"template/lt.tmpl": templateLtTmpl,
-
-	"template/lte.tmpl": templateLteTmpl,
-
-	"template/main.tmpl": templateMainTmpl,
-
-	"template/max.tmpl": templateMaxTmpl,
-
-	"template/min.tmpl": templateMinTmpl,
-
-	"template/ne.tmpl": templateNeTmpl,
-
-	"template/notnil.tmpl": templateNotnilTmpl,
-
-	"template/required.tmpl": templateRequiredTmpl,
-
-	"template/url.tmpl": templateUrlTmpl,
-
-	"template/uuid.tmpl": templateUuidTmpl,
+	"template/dive.tmpl":        templateDiveTmpl,
+	"template/eq.tmpl":          templateEqTmpl,
+	"template/gt.tmpl":          templateGtTmpl,
+	"template/gte.tmpl":         templateGteTmpl,
+	"template/hex.tmpl":         templateHexTmpl,
+	"template/len.tmpl":         templateLenTmpl,
+	"template/lt.tmpl":          templateLtTmpl,
+	"template/lte.tmpl":         templateLteTmpl,
+	"template/main.tmpl":        templateMainTmpl,
+	"template/max.tmpl":         templateMaxTmpl,
+	"template/min.tmpl":         templateMinTmpl,
+	"template/ne.tmpl":          templateNeTmpl,
+	"template/notnil.tmpl":      templateNotnilTmpl,
+	"template/required.tmpl":    templateRequiredTmpl,
+	"template/url.tmpl":         templateUrlTmpl,
+	"template/uuid.tmpl":        templateUuidTmpl,
 }
 
 // AssetDir returns the file names below a certain

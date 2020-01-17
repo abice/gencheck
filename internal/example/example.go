@@ -1,4 +1,4 @@
-//go:generate gencheck --supp=example_other_file.go -f=example.go
+//go:generate ../../bin/gencheck --supp=example_other_file.go -f=example.go
 
 package example
 

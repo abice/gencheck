@@ -6,9 +6,9 @@ gencheckBench(){
     echo "\`\`\`" >> "$benchMD"
     f="-f=./internal/benchmark/types.go"
     if [[ -n $options ]]; then
-        gencheck "$f" "$options"
+        ./bin/gencheck "$f" "$options"
     else
-        gencheck "$f"
+        ./bin/gencheck "$f"
     fi
     go test -v -run=XXX -bench=BenchmarkCompareGencheck -benchmem ./internal/benchmark >> "$benchMD"
     echo "\`\`\`" >> "$benchMD"

@@ -1,4 +1,4 @@
-//go:generate gencheck -f=types.go
+//go:generate ../../bin/gencheck -f=types.go
 
 package benchmark
 
